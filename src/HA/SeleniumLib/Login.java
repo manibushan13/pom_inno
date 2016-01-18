@@ -23,10 +23,6 @@ public class Login {
 			logApp.logger.info("else statementttttt");
 			Common.driver(_properties.getProperty(HATF_properties.BROWSER),_properties.getProperty(HATF_properties.BASEURL));
 		}
-		//Common.textBoxInput("id","strUserLogin", _properties.getProperty(HATF_properties.UNAME));
-		//Common.textBoxInput("id","strUserPwd", _properties.getProperty(HATF_properties.PWD));
-		//Common.clickElement("id","btnLogin");
-
 		logApp.logger.info("signIn success");
 	}
 
