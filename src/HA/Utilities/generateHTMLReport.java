@@ -42,9 +42,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 import HA.SeleniumLib.Common;
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
 
 
 
@@ -150,10 +150,10 @@ public class generateHTMLReport {
 			String passed = resultElement.getAttribute("passed");
 			
 			
-			Driver.logger.info("No of test skipped: "+skipped);
-			Driver.logger.info("No of test failed: "+failed);
-			Driver.logger.info("No of test total: "+total);
-			Driver.logger.info("No of test passed: "+passed);
+			logApp.logger.info("No of test skipped: "+skipped);
+			logApp.logger.info("No of test failed: "+failed);
+			logApp.logger.info("No of test total: "+total);
+			logApp.logger.info("No of test passed: "+passed);
 			
 			NodeList sList = doc.getElementsByTagName(suiteName);
 			for (int temp = 0; temp < sList.getLength(); temp++) 
@@ -165,8 +165,8 @@ public class generateHTMLReport {
 				String Suite = suiteElement.getAttribute("name");
 				starttime = suiteElement.getAttribute("started-at");
 				endtime = suiteElement.getAttribute("finished-at");
-				Driver.logger.info("Exetime: "+Exetime);
-				Driver.logger.info("Suite Name: "+Suite);
+				logApp.logger.info("Exetime: "+Exetime);
+				logApp.logger.info("Suite Name: "+Suite);
 				
 				NodeList nList = suiteElement.getElementsByTagName(testName);
 
@@ -191,20 +191,20 @@ public class generateHTMLReport {
 								minutes = TimeUnit.MILLISECONDS.toSeconds(Long.valueOf(testexetime).longValue());
 								//testexetime=String.valueOf(minutes)+" Secs";
 								testexetime="1 Mins";
-								Driver.logger.info("Test Script Exetime in Secs: "+minutes);
+								logApp.logger.info("Test Script Exetime in Secs: "+minutes);
 							}
 							else{
 								testexetime=String.valueOf(minutes)+" Mins";
-								Driver.logger.info("Test Script Exetime in Mins: "+minutes);
+								logApp.logger.info("Test Script Exetime in Mins: "+minutes);
 							}
-							Driver.logger.info("Test Script name: "+testscriptname);
-							Driver.logger.info("Test Script Exetime: "+testexetime);
+							logApp.logger.info("Test Script name: "+testscriptname);
+							logApp.logger.info("Test Script Exetime: "+testexetime);
 							
 							
 							Node classNode = testList.item(j);
 							Element classElement = (Element) classNode;				         
 							String classname = classElement.getAttribute("name");
-							Driver.logger.info("Test class name: "+classname);
+							logApp.logger.info("Test class name: "+classname);
 							
 							
 							NodeList testmethodList = tableElement.getElementsByTagName(testmethod);
@@ -216,7 +216,7 @@ public class generateHTMLReport {
 								Node testmethodNode = testmethodList.item(l);
 								Element testmethodElement = (Element) testmethodNode;				         
 								String testmethodname1 = testmethodElement.getAttribute("name");
-								Driver.logger.info("Test Method name: "+testmethodname1);
+								logApp.logger.info("Test Method name: "+testmethodname1);
 								browser=getCDataFromElement(testmethodElement);
 								System.out.println(browser);
 								values=testmethodElement.getAttribute(teststatus);
@@ -231,7 +231,7 @@ public class generateHTMLReport {
 								String[] TCcount = testids.split(",");
 								
 								if(values.equals("PASS")){
-									Driver.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is passed");
+									logApp.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is passed");
 									if(l==testmethodList.getLength()-1){
 										strstepHTML = reporterpass();				
 										strstepHTML=strstepHTML.replace("#ScriptName#", testscriptname).replace("#Exetime#", testexetime).replace("#TestID#", testids).replace("#Priority#", priority).replace("#TestDesc#", testdesc).replace("#Module#", module);
@@ -251,12 +251,12 @@ public class generateHTMLReport {
 										
 										exceptionname =exception(exceptionname);
 
-										Driver.logger.info("Exception :"+ exception(exceptionname));
+										logApp.logger.info("Exception :"+ exception(exceptionname));
 									
 									}
 									
-									Driver.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is failed");
-									Driver.logger.info("Test :"+classElement.getAttribute("name")+" is failed");
+									logApp.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is failed");
+									logApp.logger.info("Test :"+classElement.getAttribute("name")+" is failed");
 									strstepHTML = reporterfail();
 									strstepHTML=strstepHTML.replace("#Exception#", exceptionname).replace("#ScriptName#", testscriptname).replace("#Exetime#", testexetime).replace("#TestID#", testids).replace("#Priority#", priority).replace("#TestDesc#", testdesc).replace("#Module#", module);
 									strtestHTML=strtestHTML+strstepHTML;
@@ -461,11 +461,11 @@ public static void consolidatedreport() throws Exception{
     
     if(sFile.exists())
     {
-    	Driver.logger.info("hiiii");
+    	logApp.logger.info("hiiii");
     }
     else
     {
-    	Driver.logger.info("byeee");
+    	logApp.logger.info("byeee");
     }
     
 //   SmbFileOutputStream sfos = new SmbFileOutputStream(sFile);
@@ -717,7 +717,7 @@ public static void consolidatedreport() throws Exception{
 		
 public static void copyFiletoDest(File source, File dest)	throws IOException {
 			FileUtils.copyFile(source, dest);
-			Driver.logger.info("Copy success");
+			logApp.logger.info("Copy success");
 		}
 
 

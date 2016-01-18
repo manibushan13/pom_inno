@@ -15,7 +15,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import HA.TestAutomation.HATF_properties;
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 
 public  class mailGeneration {
 
@@ -90,14 +91,14 @@ public  class mailGeneration {
 		try{
 			
 			// Get the Session object.
-		      Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-		         protected PasswordAuthentication getPasswordAuthentication() {
-		            return new PasswordAuthentication(userName, passWord);
-		         }
-		      });
+//		      Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+//		         protected PasswordAuthentication getPasswordAuthentication() {
+//		            return new PasswordAuthentication(userName, passWord);
+//		         }
+//		      });
 		      
 
-//			Session session = Session.getDefaultInstance(props, null);
+			Session session = Session.getDefaultInstance(props, null);
 			MimeMessage msg = new MimeMessage(session);
 			msg.setSubject(subject);
 
@@ -122,13 +123,13 @@ public  class mailGeneration {
 			transport.sendMessage(msg, msg.getAllRecipients());
 			
 			transport.close();
-//			mail.logger.info("Mail Sent");
+			logApp.logger.info("Mail Sent");
 			System.out.println("Mail Sent");
 		} 
 
 		catch (Exception e){
 			e.printStackTrace();
-//			mail.logger.error(e);				
+			logApp.logger.error(e);				
 		}
 	}
 

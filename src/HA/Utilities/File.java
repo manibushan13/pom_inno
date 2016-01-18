@@ -29,9 +29,9 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFPictureData;
 import org.testng.Assert;
 
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 import HA.SeleniumLib.Common;
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
 
 public class File {
 
@@ -74,13 +74,13 @@ public class File {
 				}
 			}catch(Exception e){
 				out=e.toString();
-				Driver.logger.error(e);
+				logApp.logger.error(e);
 			}
 			System.out.println(out);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 	}
 
@@ -117,14 +117,14 @@ public class File {
 				}
 			}catch(Exception e){
 				out=e.toString();
-				Driver.logger.error(e);
+				logApp.logger.error(e);
 			}
-			Driver.logger.info(out);
+			logApp.logger.info(out);
 			//			System.out.println(out);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 
 	}
@@ -153,14 +153,14 @@ public class File {
 				}
 			}catch(Exception e){
 				out=e.toString();
-				Driver.logger.error(e);
+				logApp.logger.error(e);
 			}
-			Driver.logger.info(out);
+			logApp.logger.info(out);
 			//			System.out.println(out);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 			
 		}
 
@@ -227,20 +227,20 @@ public class File {
 			if(sizeA == sizeB) { 
 				for(int i=0; i<sizeA; i++) { 
 					if(dbA.getElem(i) != dbB.getElem(i)) { 
-						Driver.logger.error("sourceImage:  "+sourceImage+"\ntargetImage:  "+targetImage+ss+"\nResult:  failed");
+						logApp.logger.error("sourceImage:  "+sourceImage+"\ntargetImage:  "+targetImage+ss+"\nResult:  failed");
 						return false; 
 					} 
 				} 
-				Driver.logger.info("sourceImage:  "+sourceImage+"\n targetImage:  "+targetImage+ss+"\nResult:  PASSED");
+				logApp.logger.info("sourceImage:  "+sourceImage+"\n targetImage:  "+targetImage+ss+"\nResult:  PASSED");
 				return true; 
 			} 
 			else { 
-				Driver.logger.error("sourceImage:  "+sourceImage+"\n targetImage:  "+targetImage+ss+"\nResult:  failed");
+				logApp.logger.error("sourceImage:  "+sourceImage+"\n targetImage:  "+targetImage+ss+"\nResult:  failed");
 				return false; 
 			} 
 		} 
 		catch (Exception e) { 
-			Driver.logger.error("Failed to compare image files ...\n"+e);
+			logApp.logger.error("Failed to compare image files ...\n"+e);
 			return false; 
 		} 
 	}
@@ -311,26 +311,26 @@ public class File {
 					}
 				}catch(Exception e){
 					out=e.toString();
-					Driver.logger.error(out);
+					logApp.logger.error(out);
 				}
 
 				if(out.contains("Transfer Data Done"))
-					Driver.logger.info("..........Data Loaded Successfully through Web-Services");
+					logApp.logger.info("..........Data Loaded Successfully through Web-Services");
 				else
 				{
-					Driver.logger.info("..........Failed to Load the data through Web-Services with below exception");
-					Driver.logger.info(out);
+					logApp.logger.info("..........Failed to Load the data through Web-Services with below exception");
+					logApp.logger.info(out);
 					Assert.fail();
 					Common.closeAll();
 				}
-				Driver.logger.info(out);
+				logApp.logger.info(out);
 
 			} else {
-				Driver.logger.error("Please Use the csv file to load the data through Webservices");
+				logApp.logger.error("Please Use the csv file to load the data through Webservices");
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 
 	}
@@ -497,7 +497,7 @@ public class File {
         String strDate = HA.Utilities.HTML.GetDateTime();
 		String resultfilepath=null; 
 		resultfilepath = compareresults+"TextCompareResults"+strDate+".xls";
-		Driver.logger.info("In text File Compare method");
+		logApp.logger.info("In text File Compare method");
 		try{
 			// Create FileReader & Writer Objects.
             FileReader actualFileReader  = new FileReader(actualFile);
@@ -592,12 +592,12 @@ public class File {
             resultFileBufWrtr.close();
             actualFileBufRdr.close();
             expectedFileBufRdr.close();
-            Driver.logger.info("Result generated successfully");
+            logApp.logger.info("Result generated successfully");
       }
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 }
 	

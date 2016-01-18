@@ -43,8 +43,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.*;
 import org.testng.Assert;
 
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 import HA.Utilities.Fetch_PageLocaters;
 
 
@@ -90,7 +90,7 @@ public class Common {
 			cap.setCapability("unexpectedAlertBehaviour", "accept");
 			DesiredCapabilities.internetExplorer().setCapability("ignoreProtectedModeSettings", true);			
 			dr = new InternetExplorerDriver(cap);	
-			Driver.logger.info("Invoked IE Driver Success");
+			logApp.logger.info("Invoked IE Driver Success");
 			break;
 
 		case "GC":
@@ -137,14 +137,14 @@ public class Common {
 			//Start Chrome Driver
 			dr = new ChromeDriver(capabilities);
 
-			Driver.logger.info("Invoked Chrome Driver Success");
+			logApp.logger.info("Invoked Chrome Driver Success");
 			break;
 
 
 		case "FF":
 
 			dr = new FirefoxDriver();
-			Driver.logger.info("Invoked Firefox Driver Success");
+			logApp.logger.info("Invoked Firefox Driver Success");
 		}
 		dr.get(url);	
 		dr.manage().window().maximize();
@@ -186,7 +186,7 @@ public class Common {
 
 	public static Object executeJS(String js, Object arg1, Object arg2){
 
-		Driver.logger.info("Executing js: " + js);
+		logApp.logger.info("Executing js: " + js);
 		if(arg1 != null && arg2 == null)
 			return ((JavascriptExecutor)dr).executeScript(js, arg1);
 		if(arg1 != null && arg2 != null)
@@ -211,7 +211,7 @@ public class Common {
 		elements = findElements(elemfindBY, elemfindText);
 
 		if(elements == null || elements.size() == 0)	
-			Driver.logger.info("Element with "+ elemfindBY +"  "+ elemfindText +" found");	
+			logApp.logger.info("Element with "+ elemfindBY +"  "+ elemfindText +" found");	
 		for(WebElement element: elements)
 		{
 			if(element.isDisplayed())
@@ -260,7 +260,7 @@ public class Common {
 			element = dr.findElements(By.tagName(elemfindText));
 		}
 
-		Driver.logger.info("Element with "+ elemfindBY +"  "+ elemfindText +" found");
+		logApp.logger.info("Element with "+ elemfindBY +"  "+ elemfindText +" found");
 		return element;
 
 	}
@@ -290,7 +290,7 @@ public class Common {
 		//		dr.manage().window().setSize(width,height);
 		dr.manage().window().setSize(sse);		
 		dr.manage().window().maximize();
-		Driver.logger.info("Login Window maximized");
+		logApp.logger.info("Login Window maximized");
 		implicitWait();	
 
 	}
@@ -331,7 +331,7 @@ public class Common {
 					currentWindowId = dr.getWindowHandle();
 				}
 				catch(NoSuchWindowException ex){
-					Driver.logger.info("Web Driver is not pointing to any window currently.");
+					logApp.logger.info("Web Driver is not pointing to any window currently.");
 				}
 			}
 
@@ -398,7 +398,7 @@ public class Common {
 	public static void switchWindows(String popupName)throws Exception{
 
 		dr.switchTo().window(popupName);
-		Driver.logger.info(popupName+"window/popup selected");
+		logApp.logger.info(popupName+"window/popup selected");
 
 	}
 
@@ -410,11 +410,11 @@ public class Common {
 	public static void switchFrames(int frameid)throws Exception{
 		if(frameid>0){
 			dr.switchTo().frame(frameid);
-			Driver.logger.info("frameidframeidframeid: "+frameid);			
+			logApp.logger.info("frameidframeidframeid: "+frameid);			
 		}
 		else{				
 			dr.switchTo().defaultContent();
-			Driver.logger.info("frameidframeidframeid: "+frameid);
+			logApp.logger.info("frameidframeidframeid: "+frameid);
 		}	
 	}
 
@@ -427,7 +427,7 @@ public class Common {
 	public static void switchFrames(String frameFindBY, String frameFindText)throws Exception{
 
 		dr.switchTo().frame(Common.findElement(frameFindBY, frameFindText));	
-		Driver.logger.info("Frame:  "+ frameFindText + " Found successfully");	
+		logApp.logger.info("Frame:  "+ frameFindText + " Found successfully");	
 
 	}
 	//**Switching Frame with FrameName */	
@@ -457,7 +457,7 @@ public class Common {
 	 */
 	public static void txtVerify(String text) throws Exception{		
 		if(dr.findElement(By.cssSelector("BODY")).getText().contains(text));
-		Driver.logger.info(text+" :Text found in frame");	
+		logApp.logger.info(text+" :Text found in frame");	
 	}
 
 	/**
@@ -469,7 +469,7 @@ public class Common {
 	public static String getText(String elemfindBY,String elemfindText)throws Exception{
 		String getText = null;
 		getText = findElement(elemfindBY,elemfindText).getText();
-		Driver.logger.info("the Text for the given element is : "+getText);
+		logApp.logger.info("the Text for the given element is : "+getText);
 		return getText;
 	}
 
@@ -496,7 +496,7 @@ public class Common {
 			findElement(elemfindBY,elemfindText).clear();
 			findElement(elemfindBY,elemfindText).sendKeys(value);
 		}
-		Driver.logger.info(value+" Text filled in text box as expected");
+		logApp.logger.info(value+" Text filled in text box as expected");
 	}
 
 
@@ -518,11 +518,11 @@ public class Common {
 		String actual = findElement(elemfindBY,elemfindText).getAttribute("value");
 		System.out.println("actualText:  "+  actual  +"  userText:  "+value);
 		if(value.equals(actual)){
-			Driver.logger.info(value+" Text found in text box");
+			logApp.logger.info(value+" Text found in text box");
 			return "Pass";
 		}
 		else{
-			Driver.logger.info(value+" Text not found in text box");
+			logApp.logger.info(value+" Text not found in text box");
 			return "Fail";
 		}				
 	}
@@ -531,10 +531,10 @@ public class Common {
 		String actual = findElement(elemfindBY,elemfindText).getAttribute("value");
 		System.out.println("actualText:  "+  actual  +"  userText:  "+value);
 		if(value.equals(actual)){
-			Driver.logger.info(value+" Text found in text box");
+			logApp.logger.info(value+" Text found in text box");
 		}
 		else{
-			Driver.logger.info(value+" Text not found in text box");
+			logApp.logger.info(value+" Text not found in text box");
 			Assert.fail();
 		}				
 	}
@@ -556,11 +556,11 @@ public class Common {
 		String actual = findElement(elemfindBY,elemfindText).getText();
 		System.out.println("actualText:  "+  actual  +"  userText:  "+value);
 		if(value.equals(actual)){
-			Driver.logger.info(value+" Text found in element");
+			logApp.logger.info(value+" Text found in element");
 			return "Pass";
 		}
 		else{
-			Driver.logger.info(value+" Text not found in element");
+			logApp.logger.info(value+" Text not found in element");
 			return "Fail";
 		}				
 	}
@@ -600,7 +600,7 @@ public class Common {
 
 		else
 			ClickOnHiddenElement(element);
-		Driver.logger.info(elemfindText+ " element click success");	
+		logApp.logger.info(elemfindText+ " element click success");	
 	}
 
 
@@ -608,7 +608,7 @@ public class Common {
 	public static void ClickOnHiddenElement(String elemfindBY,String elemfindText)throws Exception{					
 		WebElement element = findElement(elemfindBY,elemfindText);
 		ClickOnHiddenElement(element);
-		Driver.logger.info(elemfindText+ " element click success");
+		logApp.logger.info(elemfindText+ " element click success");
 	}
 
 	public static void KeyPress(String elemfindBY,String elemfindText, Keys keyCode)throws Exception{
@@ -626,7 +626,7 @@ public class Common {
 	//	}
 
 	public static void ClickOnHiddenElement(WebElement element){
-		Driver.logger.info("Element is not visible.");	
+		logApp.logger.info("Element is not visible.");	
 		((JavascriptExecutor) dr).executeScript("var el=arguments[0];  if(document.createEvent){"
 				+ "var evObj = document.createEvent('MouseEvents');"
 				+ "evObj.initEvent('click', true, false); setTimeout(function() { el.dispatchEvent(evObj); }, 10);} "
@@ -641,18 +641,18 @@ public class Common {
 		if(checkBox.isSelected() != isChecked) {
 			checkBox.click();
 		}
-		Driver.logger.info(elemfindText+ "Button click success");
+		logApp.logger.info(elemfindText+ "Button click success");
 
 	}
 
 	public static Boolean verifyCheckBox(String elemfindBY,String elemfindText,boolean isChecked) throws Exception{
 		WebElement checkBox = findElement(elemfindBY,elemfindText);
 		if(checkBox.isSelected() != isChecked) {			
-			Driver.logger.info(elemfindText+ "Checkbox verification failed");
+			logApp.logger.info(elemfindText+ "Checkbox verification failed");
 			return false;
 		}
 
-		Driver.logger.info(elemfindText+ "Checkbox verification success");
+		logApp.logger.info(elemfindText+ "Checkbox verification success");
 		return true;
 	}
 
@@ -721,7 +721,7 @@ public class Common {
 			String actual = s.getFirstSelectedOption().getText();
 			if(expected.equals(actual))
 			{
-				Driver.logger.info("Verify dropdown successful.");
+				logApp.logger.info("Verify dropdown successful.");
 				res = true;
 			}else{
 
@@ -763,13 +763,13 @@ public class Common {
 
 	public static void Massloadsave()throws Exception{		
 		((JavascriptExecutor)dr).executeScript("submitFrm('Load')");
-		Driver.logger.info("Successfully loaded");		
+		logApp.logger.info("Successfully loaded");		
 	}
 
 
 	public static void JSExecute(String Funv)throws Exception{
 		((JavascriptExecutor)dr).executeScript(Funv);
-		Driver.logger.info("Successfully excuted JS function");
+		logApp.logger.info("Successfully excuted JS function");
 	}
 
 
@@ -889,10 +889,10 @@ public class Common {
 	public static void dhtmlxGridTotalCellValues(String datafile,String dataset,String value,String gridName,boolean fail)throws Exception{
 		Object columnCount = HA.SeleniumLib.Common.dhtmlxGridColumnCount(gridName);		
 		int columnCountValue = Integer.valueOf(String.valueOf(columnCount));
-		Driver.logger.info("columnCount: "+columnCountValue);
+		logApp.logger.info("columnCount: "+columnCountValue);
 		Object rowCount = HA.SeleniumLib.Common.dhtmlxGridRowcount(gridName);		
 		int rowCountValue = Integer.valueOf(String.valueOf(rowCount));
-		Driver.logger.info("rowCountValue: "+rowCountValue);
+		logApp.logger.info("rowCountValue: "+rowCountValue);
 		for(int i=0;i<((rowCountValue));i++){
 			for(int j=0;j<((columnCountValue));j++){
 				String cellValue = HA.SeleniumLib.Common.dhtmlxGridGetTextNew(gridName, i, j, "select");
@@ -905,12 +905,12 @@ public class Common {
 				}
 
 				if(xmlprovidedValue==null){
-					Driver.logger.warn("\nActual value: "+cellValue+"\nExpected Value: "+xmlprovidedValue+"Result: Comparion Not Happened");
+					logApp.logger.warn("\nActual value: "+cellValue+"\nExpected Value: "+xmlprovidedValue+"Result: Comparion Not Happened");
 				}else if(cellValue.contains(xmlprovidedValue)){
-					Driver.logger.info("\nActual value: "+cellValue+"\nExpected Value: "+xmlprovidedValue+"Result: Comparion Passed");
+					logApp.logger.info("\nActual value: "+cellValue+"\nExpected Value: "+xmlprovidedValue+"Result: Comparion Passed");
 				}
 				else{
-					Driver.logger.error("\nActual value: "+cellValue+"\nExpected Value: "+xmlprovidedValue+"Result: Comparion failed");
+					logApp.logger.error("\nActual value: "+cellValue+"\nExpected Value: "+xmlprovidedValue+"Result: Comparion failed");
 					//System.out.println("\t<Add key=\"dseValidationsStatus["+i+"]["+j+"]\" value=\""+cellValue+"\"/>");
 					if(fail==true){
 						Assert.fail();
@@ -933,7 +933,7 @@ public class Common {
 					+"var text = gridObj.cells2('"+rowIndex+"','"+columnIndex+"').getTitle();"
 					+ "return text;"
 					);		
-			Driver.logger.info("dhtmlxGridGetTextNew value returned:  "+cellText);
+			logApp.logger.info("dhtmlxGridGetTextNew value returned:  "+cellText);
 			textInColumn = cellText;
 		}
 		return textInColumn;
@@ -1059,7 +1059,7 @@ public class Common {
 					+ "ddl.options[j].selected = true;"
 					+ "}}}");
 		}
-		Driver.logger.info("dhtmlxGrid "+Action+" successfully done");	
+		logApp.logger.info("dhtmlxGrid "+Action+" successfully done");	
 
 	}
 
@@ -1111,7 +1111,7 @@ public class Common {
 					+ "}");
 
 		}
-		Driver.logger.info("dhtmlxGrid "+Action+" successfully done");	
+		logApp.logger.info("dhtmlxGrid "+Action+" successfully done");	
 	}
 
 	/**
@@ -1194,7 +1194,7 @@ public class Common {
 					}
 				}
 			}
-		Driver.logger.info("Tree "+treeAction+" passed successfully");		
+		logApp.logger.info("Tree "+treeAction+" passed successfully");		
 	}
 
 
@@ -1259,7 +1259,7 @@ public class Common {
 	                     + "if(__searchText && __searchText != '' && __searchText.length != 0){ var node = myTree.findItem(__searchText,false, true); "
 	                     + "} if(__tree && treeNode.length > 0){ drillUpDownToggle(treeNode, __action); }"
 				);
-		Driver.logger.info("Tree "+treeAction+" passed successfully");	
+		logApp.logger.info("Tree "+treeAction+" passed successfully");	
 		return dd;
 	}
 
@@ -1394,18 +1394,18 @@ public class Common {
 		{
 			if(HA.Utilities.Xmlcomparison.compareResult(xmldata, expecteddata))
 			{
-				Driver.logger.info("true");
+				logApp.logger.info("true");
 			}
 			else
 			{
-				Driver.logger.info("false");
+				logApp.logger.info("false");
 				Assert.fail();
 			}
 		}
 		else
 			HA.Utilities.File.fcompare(xmldata,expecteddata);
 
-		Driver.logger.info("owcVerification done successfully");		
+		logApp.logger.info("owcVerification done successfully");		
 
 	}
 	
@@ -1460,21 +1460,21 @@ public class Common {
 //		if(HA.Utilities.Xmlcomparison.compareResult(xmldata, expecteddata,3,16380))
 		if(HA.Utilities.Xmlcomparison.compareResult(xmldata, expecteddata,row,column))
 		{
-			Driver.logger.info("true");
+			logApp.logger.info("true");
 		}
 		else
 		{
-			Driver.logger.info("false");
+			logApp.logger.info("false");
 			Assert.fail();
 		}
 
-		Driver.logger.info("owcVerification done successfully");		
+		logApp.logger.info("owcVerification done successfully");		
 
 	}
 
 	public static void htmlVerify(String htmlData, String expecteddata)throws Exception{			
 		HA.Utilities.File.htmlFileCompare(htmlData,expecteddata);
-		Driver.logger.info("HTML verification done successfully");
+		logApp.logger.info("HTML verification done successfully");
 	}
 
 	/**
@@ -1486,7 +1486,7 @@ public class Common {
 		jsfunc="ss.spreadsheet.api.disableScreenUpdate();ss.spreadsheet.api.setValue('C12:C12','500');ss.spreadsheet.api.enableScreenUpdate();";
 		System.out.println(jsfunc);
 		((JavascriptExecutor) dr).executeScript(jsfunc);
-		Driver.logger.info("WEX Input done successfully");
+		logApp.logger.info("WEX Input done successfully");
 	}
 
 	/**
@@ -1499,7 +1499,7 @@ public class Common {
 				+ "if(" + gridName+".grid){"
 				+ "var gridObj=" + gridName+".grid;}else{"
 				+ "var gridObj=" + gridName+";};"+"return gridObj.getRowsNum()");
-		Driver.logger.info("get dhtmlxGridCount successfully  "+count);
+		logApp.logger.info("get dhtmlxGridCount successfully  "+count);
 		return count;
 	}	
 	public static Object dhtmlxGridRowExists(String gridName)throws Exception{
@@ -1507,7 +1507,7 @@ public class Common {
 				+ "if(" + gridName+".grid){"
 				+ "var gridObj=" + gridName+".grid;}else{"
 				+ "var gridObj=" + gridName+";};"+"return gridObj.doesRowExist()");
-		Driver.logger.info("get dhtmlxGridCount successfully  "+count);
+		logApp.logger.info("get dhtmlxGridCount successfully  "+count);
 		return count;
 	}	
 	public static Object dhtmlxGridColumnCount(String gridName)throws Exception{		
@@ -1515,7 +1515,7 @@ public class Common {
 				+ "if(" + gridName+".grid){"
 				+ "var gridObj=" + gridName+".grid;}else{"
 				+ "var gridObj=" + gridName+";};"+"return gridObj.getColumnsNum()");
-		Driver.logger.info("get dhtmlxGridCount successfully  "+count);
+		logApp.logger.info("get dhtmlxGridCount successfully  "+count);
 		return count;	
 	}
 
@@ -1541,7 +1541,7 @@ public class Common {
 
 	public static Object owcSheetName(String owcName)throws Exception{		
 		Object owcSheetName = ((JavascriptExecutor) dr).executeScript("return document.all."+owcName+".activesheet.name;");
-		Driver.logger.info("get OWCsheet name successfully");
+		logApp.logger.info("get OWCsheet name successfully");
 		return owcSheetName;
 
 	}
@@ -1583,7 +1583,7 @@ public class Common {
 		Alert alert = dr.switchTo().alert();		
 		String alertTextget = (alert.getText().trim());
 		String alertText=alertTextget;		
-		Driver.logger.info("Text Comparison:\nExpected Text:\n"+alerttext+"\nActualtext:\n"+alertText+"\nResult:    "+alerttext.equals(
+		logApp.logger.info("Text Comparison:\nExpected Text:\n"+alerttext+"\nActualtext:\n"+alertText+"\nResult:    "+alerttext.equals(
 				alertText));		
 		if(alertActions.equals("OK")){
 			alert.accept();	
@@ -1591,7 +1591,7 @@ public class Common {
 			alert.dismiss();
 		}	
 		
-		Driver.logger.info("alerts completed successfully");
+		logApp.logger.info("alerts completed successfully");
 	}
 
 
@@ -1673,7 +1673,7 @@ public class Common {
 		System.out.println("Sy6"+System.getProperty("user.dir")+"/TestLogs/screenShots/"+(saveAs+HA.Utilities.File.GetDateTime())+".jpg");
 		FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir")+"/TestLogs/screenShots/"+(saveAs+HA.Utilities.File.GetDateTime
 				())+".jpg"));
-		Driver.logger.info("screenshot saved successfully");		
+		logApp.logger.info("screenshot saved successfully");		
 	}	
 
 
@@ -1705,7 +1705,7 @@ public class Common {
 	 */
 	public static void callSubModule(String callsubmodule)throws Exception {
 		((JavascriptExecutor) dr).executeScript("$(oPopup.document.getElementById('"+callsubmodule+"')).click();");
-		Driver.logger.info(callsubmodule +" clicked successfully");		
+		logApp.logger.info(callsubmodule +" clicked successfully");		
 	}
 
 	/**
@@ -1732,7 +1732,7 @@ public class Common {
 		int filepathProvided = 0;
 		while(filepathProvided<3){
 			String ss = dr.findElement(By.id("strImageName")).getText();
-			Driver.logger.info("provided file path is:  "+ss);
+			logApp.logger.info("provided file path is:  "+ss);
 			if(!ss.equalsIgnoreCase(filepath)||ss.equals(null)){	
 				WebElement fileInput = dr.findElement(By.id("strImageName"));
 				Sync.processSync(4000);
@@ -1756,7 +1756,7 @@ public class Common {
 		Alert alert = dr.switchTo().alert();
 		alert.sendKeys(filepath);
 		alert.accept();
-		Driver.logger.info("file uploaded successfully");
+		logApp.logger.info("file uploaded successfully");
 	}
 
 	/**
@@ -1779,7 +1779,7 @@ public class Common {
 					}
 				}
 			}
-		Driver.logger.info("navigatePage successfully");
+		logApp.logger.info("navigatePage successfully");
 	}
 
 	/**
@@ -1789,7 +1789,7 @@ public class Common {
 	//CloseCurent Window
 	public static void closeCurrentWindow()throws Exception{		
 		dr.close();
-		Driver.logger.info("Window Closed Successfully");
+		logApp.logger.info("Window Closed Successfully");
 	}
 
 	//CloseAllWindows
@@ -1803,23 +1803,23 @@ public class Common {
 		{
 			try{
 				WindowsUtils.killByName("WerFault.exe");	
-				Driver.logger.info("WerFault.exe closed successfully");
+				logApp.logger.info("WerFault.exe closed successfully");
 			}catch(Exception e){
-				Driver.logger.info("No WerFault.exe processes to kill");
+				logApp.logger.info("No WerFault.exe processes to kill");
 			}
 		}
 		dr.quit();
-		Driver.logger.info("Driver quit successfully");
+		logApp.logger.info("Driver quit successfully");
 		if(browservar.equals("IE")){
 			Common.quitProcess();
 		}
 		//		driverThread.interrupt();
-		Driver.logger.info("Driver closed successfully");
+		logApp.logger.info("Driver closed successfully");
 		
 		}
 		catch(Exception e)
 		{
-			Driver.logger.info("Exception in close all is "+e);
+			logApp.logger.info("Exception in close all is "+e);
 		}
 	}
 
@@ -1855,7 +1855,7 @@ public class Common {
 	public static void sourceScreenShot(String saveAs)throws Exception{
 		File scrFile = ((TakesScreenshot)dr).getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(scrFile, new File(saveAs));
-		Driver.logger.info("screenshot saved successfully");
+		logApp.logger.info("screenshot saved successfully");
 	}
 
 	public static void notificationTextVerification(String textToVerify) throws Exception{
@@ -1872,27 +1872,27 @@ public class Common {
 			System.out.println(actuaText);
 			if(actuaText.contains("Error in submission of process. Please try your action again or contact your Administrator.")){
 
-				Driver.logger.info("Actual Text:"+actuaText);
-				Driver.logger.info("textToVerify"+textToVerify);
-				Driver.logger.error("Error while submission of ADC tasks");
+				logApp.logger.info("Actual Text:"+actuaText);
+				logApp.logger.info("textToVerify"+textToVerify);
+				logApp.logger.error("Error while submission of ADC tasks");
 				clickElement("id", "mfClose");
 				Common.screenShot("consolidation submission");			
 				Assert.fail();
 				Common.closeAll();
 				break;				
 			}else if(actuaText.contains(textToVerify)){			
-				Driver.logger.info("Actual Text:"+actuaText);
-				Driver.logger.info("textToVerify"+textToVerify);
-				Driver.logger.info("Verifycation passed");
+				logApp.logger.info("Actual Text:"+actuaText);
+				logApp.logger.info("textToVerify"+textToVerify);
+				logApp.logger.info("Verifycation passed");
 				clickElement("id", "mfClose");
 
 				break;
 			}else if(((((actuaText).length())>=1)&&(!(actuaText).equals(textToVerify)))||i==2000){				
-				Driver.logger.info("Actual Text:"+actuaText);
-				Driver.logger.info("textToVerify"+textToVerify);
-				Driver.logger.error("not an expected text");
+				logApp.logger.info("Actual Text:"+actuaText);
+				logApp.logger.info("textToVerify"+textToVerify);
+				logApp.logger.error("not an expected text");
 				clickElement("id", "mfClose");				
-				Driver.logger.error("notificationMessage not correct");
+				logApp.logger.error("notificationMessage not correct");
 				Assert.fail();
 				Common.closeAll();
 				break;
@@ -1916,29 +1916,29 @@ public class Common {
 			System.out.println(actuaText);
 			if(actuaText.contains("Error in submission of process. Please try your action again or contact your Administrator.")){
 
-				Driver.logger.info("Actual Text:"+actuaText);
-				Driver.logger.info("textToVerify"+textToVerify);
-				Driver.logger.error("Error while submission of ADC tasks");
+				logApp.logger.info("Actual Text:"+actuaText);
+				logApp.logger.info("textToVerify"+textToVerify);
+				logApp.logger.error("Error while submission of ADC tasks");
 				//		clickElement("id", "mfClose");
 				Common.screenShot("consolidation submission");			
 				Assert.fail();
 				Common.closeAll();
 				break;				
 			}else if(actuaText.contains(textToVerify)){			
-				Driver.logger.info("Actual Text:"+actuaText);
-				Driver.logger.info("textToVerify"+textToVerify);
-				Driver.logger.info("Verifycation passed");
+				logApp.logger.info("Actual Text:"+actuaText);
+				logApp.logger.info("textToVerify"+textToVerify);
+				logApp.logger.info("Verifycation passed");
 
 				//		clickElement("id", "mfClose");
 				ss=true;
 				break;
 			}else if(((((actuaText).length())>=1)&&(!(actuaText).equals(textToVerify)))||i==2000){				
-				Driver.logger.info("Actual Text:"+actuaText);
-				Driver.logger.info("textToVerify"+textToVerify);
-				Driver.logger.error("not an expected text");
+				logApp.logger.info("Actual Text:"+actuaText);
+				logApp.logger.info("textToVerify"+textToVerify);
+				logApp.logger.error("not an expected text");
 				clickElement("id", "mfClose");
 				ss=true;
-				Driver.logger.error("notificationMessage not correct");
+				logApp.logger.error("notificationMessage not correct");
 				Assert.fail();
 				//		Common.closeAll();
 				break;
@@ -1982,7 +1982,7 @@ public class Common {
 		else if(elemfindBY=="tagName"){
 			element = dr.findElements(By.tagName(elemfindText));
 		}
-		Driver.logger.info("Element with "+ elemfindBY +"  "+ elemfindText +" found");	
+		logApp.logger.info("Element with "+ elemfindBY +"  "+ elemfindText +" found");	
 		if(element == null){
 			elementCount = 0;
 		}else{
@@ -2000,7 +2000,7 @@ public class Common {
 
 	public static void catchExceptions(Exception e){ 	
 		String functionName=Thread.currentThread().getStackTrace()[2].getMethodName();					
-		Driver.logger.error(functionName +" Method failed with below exception:\n"+e.getStackTrace());
+		logApp.logger.error(functionName +" Method failed with below exception:\n"+e.getStackTrace());
 	}
 
 	public static void jsClick(String id){
@@ -2013,7 +2013,7 @@ public class Common {
 
 	public static void saveModelPopup(){
 		((JavascriptExecutor)dr).executeScript("submitFrm('Load')");
-		Driver.logger.info("Successfully loaded");
+		logApp.logger.info("Successfully loaded");
 	}
 	public static void closeNotification() throws Exception {
 		Common.navigatePage();
@@ -2022,12 +2022,12 @@ public class Common {
 		if(dr.findElement(By.xpath("//div/table/tbody/tr/td")).isDisplayed()){
 			String notificationText=Common.findElement("xpath","//div/table/tbody/tr/td").getText();
 			System.out.println("Notification Text: "+notificationText);
-			Driver.logger.info("::::::::::::::::::::::"+notificationText);
+			logApp.logger.info("::::::::::::::::::::::"+notificationText);
 			dr.findElement(By.id("mfClose")).click();
-			Driver.logger.info("mfClose Button click success");
+			logApp.logger.info("mfClose Button click success");
 		}else {
 			System.out.println("No Notification to Close");
-			Driver.logger.error("No Notification to Close");
+			logApp.logger.error("No Notification to Close");
 		}
 	}
 
@@ -2057,11 +2057,11 @@ public class Common {
 			System.out.println("Expected Text: "+textToVerify);
 			System.out.println("Actual Text: "+actuaText);
 			if(((((actuaText).length())>=1)&&(!(actuaText).equals(textToVerify)))||i==2000){	
-				Driver.logger.info("Actual Text:::::: "+actuaText);
-				Driver.logger.info("Expected Tex::::: "+textToVerify);
+				logApp.logger.info("Actual Text:::::: "+actuaText);
+				logApp.logger.info("Expected Tex::::: "+textToVerify);
 				clickElement("id", "mfClose");
 				ss=true;
-				Driver.logger.error("Notification Message not correct");
+				logApp.logger.error("Notification Message not correct");
 				break;
 			}
 			else{
@@ -2085,11 +2085,11 @@ public class Common {
 			Sync.wait.until(ExpectedConditions.textToBePresentInElement(Common.findElement("className","notification_title"), expectedText
 					));
 			String actuaText=Common.findElement("className","notification_title").getText();
-			Driver.logger.info("Expected Text: "+expectedText);
-			Driver.logger.info("Actual Text::: "+actuaText);
+			logApp.logger.info("Expected Text: "+expectedText);
+			logApp.logger.info("Actual Text::: "+actuaText);
 			if(Common.findElement("className","notification_title").isDisplayed())
 				if(actuaText!=null){
-					Driver.logger.info("Notification button click success");
+					logApp.logger.info("Notification button click success");
 					if(actuaText.equals(expectedText))
 						ss=true;
 					break;
@@ -2186,7 +2186,7 @@ public class Common {
 
 		else
 			ClickOnHiddenElement(element);
-		Driver.logger.info(elemfindText+ " element click success");	
+		logApp.logger.info(elemfindText+ " element click success");	
 	}
 
 	public static void actionsKeyPress(Keys keyCode)throws Exception{
@@ -2218,7 +2218,7 @@ public class Common {
 		if(!directory.exists())
 		{
 			System.out.println(directory+ " - Directory does not exist.");
-			Driver.logger.info(directory+ " - Directory does not exist.");
+			logApp.logger.info(directory+ " - Directory does not exist.");
 		}
 		else
 		{
@@ -2238,7 +2238,7 @@ public class Common {
 				{
 					file.delete();
 					System.out.println("Directory is deleted : "+ file.getAbsolutePath());
-					Driver.logger.info("Directory is deleted : "+ file.getAbsolutePath());
+					logApp.logger.info("Directory is deleted : "+ file.getAbsolutePath());
 				}
 			}
 			else
@@ -2255,7 +2255,7 @@ public class Common {
 					{
 						file.delete();
 						System.out.println("Directory is deleted : "+ file.getAbsolutePath());
-						Driver.logger.info("Directory is deleted : "+ file.getAbsolutePath());
+						logApp.logger.info("Directory is deleted : "+ file.getAbsolutePath());
 					}
 				}
 			}
@@ -2264,7 +2264,7 @@ public class Common {
 		{
 			file.delete();
 			System.out.println("File is deleted : " + file.getAbsolutePath());
-			Driver.logger.info("File is deleted : " + file.getAbsolutePath());
+			logApp.logger.info("File is deleted : " + file.getAbsolutePath());
 		}
 	}	
 
@@ -2301,7 +2301,7 @@ public class Common {
 		if(!srcFolder.exists())
 		{
 			System.out.println(srcFolder+ "-Directory does not exist.");
-			Driver.logger.info(srcFolder+ "-Directory does not exist.");
+			logApp.logger.info(srcFolder+ "-Directory does not exist.");
 			//                System.exit(0);                        
 		}else
 		{
@@ -2320,7 +2320,7 @@ public class Common {
 			{
 				dest.mkdir();
 				System.out.println("Directory copied from " + src + "  to " + dest);
-				Driver.logger.info("Directory copied from " + src + "  to " + dest);
+				logApp.logger.info("Directory copied from " + src + "  to " + dest);
 			}
 			String files[] = src.list();
 			for (String file : files) 
@@ -2340,7 +2340,7 @@ public class Common {
 			in.close();
 			out.close();
 			System.out.println("File copied from " + src + " to " + dest);
-			Driver.logger.info("File copied from " + src + " to " + dest);
+			logApp.logger.info("File copied from " + src + " to " + dest);
 		}
 	}
 
@@ -2392,7 +2392,7 @@ public class Common {
 		((JavascriptExecutor)dr).executeScript("top.frames[2].frames[2].document.location.href=arguments[1];",frame,  completeurl);
 
 		Thread.sleep(3000);
-		Driver.logger.info("Frame URL loaded successfully");
+		logApp.logger.info("Frame URL loaded successfully");
 
 	}
 
@@ -2404,11 +2404,11 @@ public class Common {
 		String completeurl= _properties.getProperty(HATF_properties.BASEURL)+url;
 		((JavascriptExecutor)dr).executeScript("top.frames[2].frames[2].document.location.href=arguments[1];",frame,  completeurl);
 		Sync.processSync(3000);
-		Driver.logger.info("Frame URL loaded successfully");
+		logApp.logger.info("Frame URL loaded successfully");
 		navigatePage();
 		Sync.waitPresenceOfElementLocated("id", ID);
 		Sync.waitElementVisible("id", ID);
-		Driver.logger.info("Page navigated successfully");
+		logApp.logger.info("Page navigated successfully");
 	}
 
 
@@ -2422,7 +2422,7 @@ public class Common {
 
 	public static void switchWindowsAfterClick(String elemfindBY, String elemfindText)throws Exception{
 		String mainWindow = HA.SeleniumLib.Common.dr.getWindowHandle();		
-		Driver.logger.info("mainWindow: "+mainWindow);
+		logApp.logger.info("mainWindow: "+mainWindow);
 		Set <String> windows = new LinkedHashSet<String>();
 		windows.add(mainWindow);
 		Common.clickElement(elemfindBY, elemfindText);
@@ -2434,9 +2434,9 @@ public class Common {
 		HA.SeleniumLib.Common.dr.switchTo().window(mainWindow);	
 		windows.remove(mainWindow);		
 		for(String id:windows){
-			Driver.logger.info("subWindows: "+id);
+			logApp.logger.info("subWindows: "+id);
 			HA.SeleniumLib.Common.dr.switchTo().window(id);
-			Driver.logger.info("switching window to subwindow: "+id);
+			logApp.logger.info("switching window to subwindow: "+id);
 		}
 
 	}
@@ -2454,7 +2454,7 @@ public class Common {
 		dr.close();
 		windows.remove(mainWindow);		
 		for(String id:windows){
-			Driver.logger.info("Windows details are:"+id);
+			logApp.logger.info("Windows details are:"+id);
 			HA.SeleniumLib.Common.dr.switchTo().window(id);
 		}
 
@@ -2469,16 +2469,16 @@ public class Common {
 		//		Sync.wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("mfMessage")));
 		String messagetext=Common.findElement("xpath","//div/table/tbody/tr/td").getText();
 		if(messagetext.equals(expectedText)){
-			Driver.logger.info("Actual Text:"+messagetext);
-			Driver.logger.info("textToVerify"+expectedText);
-			Driver.logger.info("Verification Passed");
+			logApp.logger.info("Actual Text:"+messagetext);
+			logApp.logger.info("textToVerify"+expectedText);
+			logApp.logger.info("Verification Passed");
 			Common.clickElement("id", "mfClose");	
-			Driver.logger.info("Notification message closed successfully");
+			logApp.logger.info("Notification message closed successfully");
 		}else{
-			Driver.logger.info("Failed to close Notification message");
-			Driver.logger.info("Actual Text:"+messagetext);
-			Driver.logger.info("textToVerify"+expectedText);
-			Driver.logger.error("Not an expected text");
+			logApp.logger.info("Failed to close Notification message");
+			logApp.logger.info("Actual Text:"+messagetext);
+			logApp.logger.info("textToVerify"+expectedText);
+			logApp.logger.error("Not an expected text");
 			Assert.fail();
 			Common.closeAll();
 		}
@@ -2489,7 +2489,7 @@ public class Common {
 
 	public static String JavaScriptExecute(String Funv) throws Exception{
 		String val=(String)((JavascriptExecutor)dr).executeScript("var str="+Funv+";return str;").toString();
-		Driver.logger.info("Successfully excuted JS function");
+		logApp.logger.info("Successfully excuted JS function");
 		return val;
 	}
 
@@ -2529,7 +2529,7 @@ public class Common {
 
 			if(!s.equals("999")){
 				ss=true;
-				Driver.logger.info(" Page loaded correct");
+				logApp.logger.info(" Page loaded correct");
 
 				break;
 			}else if (i<1000){
@@ -2555,8 +2555,8 @@ public class Common {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
 		Date date = new Date(); 
 		String CurrentDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
-		Driver.logger.info("DATEEEEEEEEEEEEEEEEEEE:"+dateFormat.format(date)); 
-		Driver.logger.info("CUrrent Date is:"+CurrentDate);
+		logApp.logger.info("DATEEEEEEEEEEEEEEEEEEE:"+dateFormat.format(date)); 
+		logApp.logger.info("CUrrent Date is:"+CurrentDate);
 		return CurrentDate;
 	}
 
@@ -2571,14 +2571,14 @@ public class Common {
 			Common.switchFrames(1);		
 			actualText=Common.findElement("xpath","//div/table/tbody/tr/td").getText();			
 			if(((((actualText).length())>=1))||i==20){				
-				Driver.logger.info("Actual Text:"+actualText);
+				logApp.logger.info("Actual Text:"+actualText);
 				clickElement("id", "mfClose");
-				Driver.logger.info("Notification message closed sucessfully");
+				logApp.logger.info("Notification message closed sucessfully");
 				ss=true;
 				break;
 			}else{
 
-				Driver.logger.error("iiiiiiii: "+(i++));
+				logApp.logger.error("iiiiiiii: "+(i++));
 				i=i+1;
 			}
 		}
@@ -2594,19 +2594,19 @@ public class Common {
 		String messagetext=Common.findElement("xpath","//div/table/tbody/tr/td").getText();
 		//	if(messagetext.equals(expectedText)){
 		if(messagetext.endsWith(expectedText)){
-			Driver.logger.info("Actual Text:"+messagetext);
-			Driver.logger.info("textToVerify"+expectedText);
-			Driver.logger.info("Verification Passed");
+			logApp.logger.info("Actual Text:"+messagetext);
+			logApp.logger.info("textToVerify"+expectedText);
+			logApp.logger.info("Verification Passed");
 			//		Common.clickElement("id", "mfClose");	
-			Driver.logger.info("Notification message closed successfully");
+			logApp.logger.info("Notification message closed successfully");
 
 
 		}
 		else{
-			Driver.logger.info("Failed to close Notification message");
-			Driver.logger.info("Actual Text:"+messagetext);
-			Driver.logger.info("textToVerify"+expectedText);
-			Driver.logger.error("Not an expected text");
+			logApp.logger.info("Failed to close Notification message");
+			logApp.logger.info("Actual Text:"+messagetext);
+			logApp.logger.info("textToVerify"+expectedText);
+			logApp.logger.error("Not an expected text");
 			Assert.fail();
 			Common.closeAll();
 
@@ -2636,7 +2636,7 @@ public class Common {
 			dr.findElement(By.xpath((String) elementText)).clear();
 			dr.findElement(By.xpath((String) elementText)).sendKeys(entryData);
 		}
-		System.out.println(entryData+" filled in expected textbox.");
+		logApp.logger.info(entryData+" filled in expected textbox.");
 
 	}
 
@@ -2651,7 +2651,7 @@ public class Common {
 		else if(elementType.equals("xpath"))
 			dr.findElement(By.xpath((String) elementText)).click();
 		
-		System.out.println(elementText+" button click success.");
+		logApp.logger.info(elementText+" button click success.");
 	}
 
 }

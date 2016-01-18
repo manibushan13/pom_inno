@@ -3,11 +3,11 @@ package HA.Utilities;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
+
+import HA.Properties.HATF_properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import HA.TestAutomation.HATF_properties;
-import HA.TestAutomation.Driver;
 
 public class mail {
 	
@@ -25,8 +25,6 @@ public class mail {
 	}
 	
 	public static void exemail() throws Exception{
-		System.out.println("mail loggerrrrrrrrrrrrrrr....");
-		Driver.logger.info("mail loggerrrrrrrrrrrrr");
 		mailGeneration.sendMail("start");
 	}
 	

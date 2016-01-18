@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.ITestResult;
 
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 
 public class HTMLPreparation {
 
@@ -36,7 +36,7 @@ public class HTMLPreparation {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Driver.logger.info("File Parsed");
+		logApp.logger.info("File Parsed");
 		return contentBuilder.toString();
 	}
 	
@@ -56,7 +56,7 @@ public class HTMLPreparation {
 			System.out.println("MAil Body prepared");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
       return htmlreportpath;
 	}
@@ -151,7 +151,7 @@ public class HTMLPreparation {
 		if(minutes<1){
 			minutes = TimeUnit.MILLISECONDS.toSeconds(testexetime);
 			time="1 Mins";
-			Driver.logger.info("Test Script Exetime in Secs: "+minutes);
+			logApp.logger.info("Test Script Exetime in Secs: "+minutes);
 		}
 		else{
 			time=String.valueOf(minutes)+" Mins";

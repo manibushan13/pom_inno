@@ -37,11 +37,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import HA.TestAutomation.Driver;
-
 import com.google.common.collect.MapDifference;
 //import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.collect.Maps;
+
+import HA.Properties.logApp;
 
 public class Xmlcomparison {
 	
@@ -374,7 +374,7 @@ NodeList resultNodehead1 = doc.getElementsByTagName("ss:Table");
 		
 		//expfil = new File("/Users/automationuser/Desktop/RT_CC_GLData_Actuals_AdhocReport10.xml");	
 		
-		Driver.logger.info(expfil1);
+		logApp.logger.info(expfil1);
 		File expfil = new File(expfil1);
 		LinkedHashMap<String, List<String>> expmap=Xmlcomparison.xmlreading(expfil, rowRange, colRange);
 		

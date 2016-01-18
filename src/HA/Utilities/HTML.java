@@ -7,8 +7,8 @@ import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import HA.TestAutomation.HATF_properties;
-import HA.TestAutomation.Driver;
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 
 public class HTML {
 
@@ -46,7 +46,7 @@ public class HTML {
 			System.out.println("MAil Body prepared");
 		} catch (Exception e) {
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 
 
@@ -178,7 +178,7 @@ public class HTML {
 			System.out.println("Mail HTML path"+consolidatedmailreportpath);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 
 

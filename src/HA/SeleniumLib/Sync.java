@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 
 
 public class Sync extends Common {
@@ -130,7 +130,7 @@ public class Sync extends Common {
 			syncWait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName(elemfindText)));
 			break;
 		}
-		Driver.logger.info("Sync waitElementVisible completed successfully");
+		logApp.logger.info("Sync waitElementVisible completed successfully");
 	}
 
 
@@ -507,7 +507,7 @@ public class Sync extends Common {
 			break;
 		}
 		//		Driver.logger.info("Sync presenceOfElementLocated completed successfullyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-		Driver.logger.info("Sync presenceOfElementLocated completed successfully for the element: "+elemfindBY +"with text:  "+elemfindText);
+		logApp.logger.info("Sync presenceOfElementLocated completed successfully for the element: "+elemfindBY +"with text:  "+elemfindText);
 
 		//		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("whatever")));
 	}
@@ -515,9 +515,9 @@ public class Sync extends Common {
 	public static void processSync(long time){
 		try{
 			Thread.sleep(time);
-			Driver.logger.info("processSync passed");
+			logApp.logger.info("processSync passed");
 		}catch(Exception e){
-			Driver.logger.error("processSync failed with below error: "+e);
+			logApp.logger.error("processSync failed with below error: "+e);
 		}
 	}
 

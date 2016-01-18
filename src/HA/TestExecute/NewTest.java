@@ -6,7 +6,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import HA.Component.*;
 import HA.SeleniumLib.*;
-import HA.TestAutomation.Component.Login;
+import HA.SeleniumLib.Login;
 
 public class NewTest {
 

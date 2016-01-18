@@ -26,7 +26,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import HA.TestAutomation.Driver;
+
+import HA.Properties.logApp;
 
 
 public class MailTestSuite {
@@ -77,10 +78,10 @@ public static String generateExecutionHTML() throws Exception{
 			String passed = resultElement.getAttribute("passed");
 			
 			
-			Driver.logger.info("No of test skipped: "+skipped);
-			Driver.logger.info("No of test failed: "+failed);
-			Driver.logger.info("No of test total: "+total);
-			Driver.logger.info("No of test passed: "+passed);
+			logApp.logger.info("No of test skipped: "+skipped);
+			logApp.logger.info("No of test failed: "+failed);
+			logApp.logger.info("No of test total: "+total);
+			logApp.logger.info("No of test passed: "+passed);
 			
 			NodeList sList = doc.getElementsByTagName(suiteName);
 			for (int temp = 0; temp < sList.getLength(); temp++) 
@@ -92,8 +93,8 @@ public static String generateExecutionHTML() throws Exception{
 				String Suite = suiteElement.getAttribute("name");
 				starttime = suiteElement.getAttribute("started-at");
 				endtime = suiteElement.getAttribute("finished-at");
-				Driver.logger.info("Exetime: "+Exetime);
-				Driver.logger.info("Suite Name: "+Suite);
+				logApp.logger.info("Exetime: "+Exetime);
+				logApp.logger.info("Suite Name: "+Suite);
 				generateHTMLReport.starttime=starttime;
 				generateHTMLReport.endtime=endtime;
 				generateHTMLReport.Exetime=suiteElement.getAttribute("duration-ms");
@@ -115,14 +116,14 @@ public static String generateExecutionHTML() throws Exception{
 							
 							String testscriptname = tableElement.getAttribute("name");
 							String testexetime = HTMLPreparation.MilliSecondsToMinutes(Long.parseLong(tableElement.getAttribute("duration-ms")));
-							Driver.logger.info("Test Script name: "+testscriptname);
-							Driver.logger.info("Test Script Exetime: "+testexetime);
+							logApp.logger.info("Test Script name: "+testscriptname);
+							logApp.logger.info("Test Script Exetime: "+testexetime);
 							
 							
 							Node classNode = testList.item(j);
 							Element classElement = (Element) classNode;				         
 							String classname = classElement.getAttribute("name");
-							Driver.logger.info("Test class name: "+classname);
+							logApp.logger.info("Test class name: "+classname);
 							
 							
 							NodeList testmethodList = tableElement.getElementsByTagName(testmethod);
@@ -134,7 +135,7 @@ public static String generateExecutionHTML() throws Exception{
 								Node testmethodNode = testmethodList.item(l);
 								Element testmethodElement = (Element) testmethodNode;				         
 								String testmethodname1 = testmethodElement.getAttribute("name");
-								Driver.logger.info("Test Method name: "+testmethodname1);
+								logApp.logger.info("Test Method name: "+testmethodname1);
 								values=testmethodElement.getAttribute(teststatus);
 								
 								ArrayList<String> stringList = new ArrayList<String>();
@@ -147,7 +148,7 @@ public static String generateExecutionHTML() throws Exception{
 								String[] TCcount = testids.split(",");
 								dynamicRow=dynamicRow.replace("#TestScriptName#", testscriptname).replace("#Exetime#", testexetime).replace("#TestID#", testids).replace("#Priority#", priority).replace("#TestDesc#", testdesc).replace("#Module#", module);
 								if(values.equals("PASS")){
-									Driver.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is passed");
+									logApp.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is passed");
 									if(l==testmethodList.getLength()-1){
 										
 										dynamicRow=dynamicRow.replaceAll("#color#","green").replace("#Remarks#","").replace("#Status#", "PASS");
@@ -166,12 +167,12 @@ public static String generateExecutionHTML() throws Exception{
 										
 										exceptionname =generateHTMLReport.exception(exceptionname);
 
-										Driver.logger.info("Exception :"+ generateHTMLReport.exception(exceptionname));
+										logApp.logger.info("Exception :"+ generateHTMLReport.exception(exceptionname));
 									
 									}
 									
-									Driver.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is failed");
-									Driver.logger.info("Test :"+classElement.getAttribute("name")+" is failed");
+									logApp.logger.info("Test :"+testmethodElement.getAttribute("signature")+" is failed");
+									logApp.logger.info("Test :"+classElement.getAttribute("name")+" is failed");
 									dynamicRow=dynamicRow.replaceAll("#color#","red").replace("#Remarks#",exceptionname).replace("#Status#","FAIL");
 									mail.totalTCcount =mail.totalTCcount+TCcount.length;
 									mail.failTCcount =mail.failTCcount+TCcount.length;

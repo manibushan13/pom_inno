@@ -40,8 +40,8 @@ public class Util {
 			int k=j+1;
 			HSSFCell type1 = row.getCell(k);
 			String eleType = cellToString(type1);
-			System.out.println("Ele key : " + eleKey);
-			System.out.println("Ele Type:"+eleType);
+			//System.out.println("Ele key : " + eleKey);
+			//System.out.println("Ele Type:"+eleType);
 			locaterType.put(eleKey, eleType);
 			}
 		System.out.println("Successfully Fetched "+locaterPage+" Page Locaters.");
@@ -66,8 +66,8 @@ public class Util {
 			int l=j+2;
 			HSSFCell text1 = row.getCell(l);
 			String eleText = cellToString(text1);
-			System.out.println("Ele key : " + eleKey);
-			System.out.println("Ele Text:"+eleText);
+			//System.out.println("Ele key : " + eleKey);
+			//System.out.println("Ele Text:"+eleText);
 			locaterText.put(eleKey, eleText);
 			}
 		System.out.println("Successfully Fetched "+locaterPage+" Page Locaters.");

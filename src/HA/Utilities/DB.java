@@ -8,8 +8,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
 
 public class DB {
 	
@@ -24,12 +24,12 @@ public class DB {
 			String db_connect_string=_properties.getProperty(HATF_properties.CONN_STR);
 			Class.forName(_properties.getProperty(HATF_properties.SQLJAVADriver));
 	        conn = DriverManager.getConnection(db_connect_string);
-	        HA.TestAutomation.Driver.logger.info("DB Connection Success");
+	        HA.Properties.logApp.logger.info("DB Connection Success");
 			stmt = conn.createStatement();
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 	}
 	
@@ -55,7 +55,7 @@ public class DB {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 		finally{
 			 rs.close();                       // Close the ResultSet                  
@@ -84,7 +84,7 @@ public class DB {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 		finally{
 			 rs.close();                       // Close the ResultSet                  
@@ -143,7 +143,7 @@ public class DB {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 		finally{
 
@@ -164,7 +164,7 @@ public class DB {
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			Driver.logger.error(e);
+			logApp.logger.error(e);
 		}
 		finally{
 //			rs.close();                       // Close the ResultSet                  

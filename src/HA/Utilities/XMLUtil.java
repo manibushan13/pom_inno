@@ -251,9 +251,9 @@ public class XMLUtil {
 		XMLOutputFactory factory      = XMLOutputFactory.newInstance();		
 		factory.setProperty(XMLOutputFactory.IS_REPAIRING_NAMESPACES, true);
 
-		XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(new FileOutputStream(filePath));
+		//XMLStreamWriter xmlwriter = factory.createXMLStreamWriter(new FileOutputStream(filePath));
 
-		ConvertXmlReaderToWriter.writeAll(xmlStream, xmlwriter);
+		//ConvertXmlReaderToWriter.writeAll(xmlStream, xmlwriter);
 
 		System.out.println("File saved!");
 	}

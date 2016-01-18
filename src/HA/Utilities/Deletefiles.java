@@ -2,7 +2,7 @@ package HA.Utilities;
 
 import java.io.File;
 
-import HA.TestAutomation.Driver;
+import HA.Properties.logApp;
 
 public class Deletefiles {
 	
@@ -17,7 +17,7 @@ public class Deletefiles {
 			if (f.getName().startsWith(name))
 			{
 				f.delete();
-				Driver.logger.info("file deleted"+f.getAbsolutePath());
+				logApp.logger.info("file deleted"+f.getAbsolutePath());
 			}
 		}
 		/*Driver.logger.info("Below are Files after deletion in directory");

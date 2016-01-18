@@ -13,11 +13,12 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
+import HA.Properties.HATF_properties;
+import HA.Properties.logApp;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
-import HA.TestAutomation.Driver;
-import HA.TestAutomation.HATF_properties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -206,7 +207,7 @@ public class ReadXML
 					colnum=columnElement.getAttribute(col);
 					rownum=columnElement.getAttribute(row);
 					values=columnElement.getAttribute(Value);
-					HA.TestAutomation.Component.Common.owcInput(rownum,colnum,values,owcname);
+					HA.SeleniumLib.Common.owcInput(rownum,colnum,values,owcname);
 				}
 			}
 		}
@@ -271,10 +272,10 @@ public class ReadXML
 			String passed = resultElement.getAttribute("passed");
 			
 			
-			Driver.logger.info("No of test skipped: "+skipped);
-			Driver.logger.info("No of test failed: "+failed);
-			Driver.logger.info("No of test total: "+total);
-			Driver.logger.info("No of test passed: "+passed);
+			logApp.logger.info("No of test skipped: "+skipped);
+			logApp.logger.info("No of test failed: "+failed);
+			logApp.logger.info("No of test total: "+total);
+			logApp.logger.info("No of test passed: "+passed);
 			
 			NodeList sList = doc.getElementsByTagName(suiteName);
 			for (int temp = 0; temp < sList.getLength(); temp++) 
@@ -300,7 +301,7 @@ public class ReadXML
 						{
 							
 							String testscriptname = tableElement.getAttribute("name");
-							Driver.logger.info("Test Script name: "+testscriptname);
+							logApp.logger.info("Test Script name: "+testscriptname);
 							
 							Node columnNode = testList.item(j);
 							Element columnElement = (Element) columnNode;				         
@@ -308,13 +309,13 @@ public class ReadXML
 							
 								values=columnElement.getAttribute(teststatus);
 								if(values.equals("PASS")){
-									Driver.logger.info("Test :"+columnElement.getAttribute("signature")+" is passed");
+									logApp.logger.info("Test :"+columnElement.getAttribute("signature")+" is passed");
 								}
 								
 
 						}
 						
-						Driver.logger.info("Test :"+tableElement.getAttribute("class")+" is passed");
+						logApp.logger.info("Test :"+tableElement.getAttribute("class")+" is passed");
 					
 				}
 				

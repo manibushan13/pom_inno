@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import HA.TestAutomation.Driver;
+import HA.Properties.logApp;
 
 public class timedate {
 
@@ -30,11 +30,11 @@ public class timedate {
 		if(minutes<1){
 			minutes = TimeUnit.MILLISECONDS.toSeconds(Long.valueOf(time).longValue());
 			time=String.valueOf(minutes)+" Secs";
-			Driver.logger.info("Test Script Exetime in Secs: "+minutes);
+			logApp.logger.info("Test Script Exetime in Secs: "+minutes);
 		}
 		else{
 			time=String.valueOf(minutes)+" Mins";
-			Driver.logger.info("Test Script Exetime in Mins: "+minutes);
+			logApp.logger.info("Test Script Exetime in Mins: "+minutes);
 		}
 		return time;
 		
