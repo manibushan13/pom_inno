@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="SUite" parallel="none">
+	<listeners>
+		<listener class-name="HA.Utilities.Listener" />
+	</listeners>
+
+
+	<test description="Sample Test" name="pom_Sample" priority="P1" testid="23784">
+		<classes>
+			<class name="HA.TestExecute.NewTest" />
+		</classes>
+	</test>
+
+
+
+</suite>
