@@ -207,7 +207,7 @@ public class ReadXML
 					colnum=columnElement.getAttribute(col);
 					rownum=columnElement.getAttribute(row);
 					values=columnElement.getAttribute(Value);
-					HA.SeleniumLib.Common.owcInput(rownum,colnum,values,owcname);
+					//HA.SeleniumLib.Common.owcInput(rownum,colnum,values,owcname);
 				}
 			}
 		}
