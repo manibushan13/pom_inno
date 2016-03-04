@@ -1,8 +1,14 @@
 package HA.Utilities;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -19,13 +25,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import HA.Properties.logApp;
+
 public class Util {
 	
 	public static HashMap<String, String> locaterType(String locaterPage) throws Exception
 	{
 		HashMap<String, String> locaterType = new HashMap<String, String>();
 		System.out.println("locaterPage:::::::"+locaterPage);
-		FileInputStream file1 = new FileInputStream(new File("D:\\poc\\sample\\src\\files\\pom.xls"));   
+		FileInputStream file1 = new FileInputStream(new File(System.getProperty("user.dir")+"\\src\\HA\\TestData\\pom.xls"));   
 		HSSFWorkbook workbook = new HSSFWorkbook(file1);  
 		HSSFSheet sheet = workbook.getSheet(locaterPage);  
 
@@ -44,14 +52,14 @@ public class Util {
 			//System.out.println("Ele Type:"+eleType);
 			locaterType.put(eleKey, eleType);
 			}
-		System.out.println("Successfully Fetched "+locaterPage+" Page Locaters.");
+		logApp.logger.info("Successfully Fetched "+locaterPage+" Page Locaters.");
 		return locaterType;
 	}
 	
 	public static HashMap<String, String> locaterText(String locaterPage) throws Exception
 	{
 		HashMap<String, String> locaterText = new HashMap<String, String>();
-		FileInputStream file1 = new FileInputStream(new File("D:\\poc\\sample\\src\\files\\pom.xls"));   
+		FileInputStream file1 = new FileInputStream(new File(System.getProperty("user.dir")+"\\src\\HA\\TestData\\pom.xls"));   
 		HSSFWorkbook workbook = new HSSFWorkbook(file1);  
 		HSSFSheet sheet = workbook.getSheet(locaterPage);  
 
@@ -70,7 +78,7 @@ public class Util {
 			//System.out.println("Ele Text:"+eleText);
 			locaterText.put(eleKey, eleText);
 			}
-		System.out.println("Successfully Fetched "+locaterPage+" Page Locaters.");
+		logApp.logger.info("Successfully Fetched "+locaterPage+" Page Locaters.");
 		return locaterText;
 	}
 
@@ -101,8 +109,7 @@ public class Util {
 	public static String getXmlData(String datafile,String datasetName,String value1) throws Exception 
 	{
 
-//		File file = new File(System.getProperty("user.dir")+"/src/HA/TestData/"+datafile);
-		File file = new File(datafile);
+		File file = new File(System.getProperty("user.dir")+"/src/HA/TestData/"+datafile+".xml");
 		String values = null;		 
 
 		if(file.getName().endsWith(".xml")){
@@ -140,8 +147,45 @@ public class Util {
 		}
 
 		return values;
+	}
+	
+	static String fname = "";
+	static PrintWriter out1 = null;
+	static File file = null;
+
+	public static void filecreation()
+	{
+		Date date = new Date() ;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss") ;
+		file = new File(System.getProperty("user.dir")+"/TestLogs/Listener txt files/"+dateFormat.format(date) + ".txt") ;
 
 	}
 
+	public static void filereadyforwritingdata()
+	{
+		try {
+			fname = file.getCanonicalPath();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-}
+		try {
+			out1 = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void filewrite(String s)
+	{
+		out1.println(s);
+	}
+
+	public static void fileclose()
+	{
+		out1.close();
+	}
+
+
+}//eoc

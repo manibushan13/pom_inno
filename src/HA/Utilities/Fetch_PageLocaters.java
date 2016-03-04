@@ -5,10 +5,11 @@ import HA.Component.*;
 public class Fetch_PageLocaters {
 
 	public Fetch_PageLocaters() {
+		
 		try{
 			LoginPage.getAllLocaters();
-			GmailPage.getAllLocaters();
-			Homepage.getAllLocaters();
+			HomePage.getAllLocaters();
+			GooglePage.getAllLocaters();
 			
 		}
 		catch(Exception e){

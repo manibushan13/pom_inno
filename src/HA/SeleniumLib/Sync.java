@@ -37,7 +37,7 @@ public class Sync extends Common {
 	 */
 	public static void waitImplicit(long waitSeconds) throws Exception{
 		dr.manage().timeouts().implicitlyWait(waitSeconds, TimeUnit.SECONDS);
-		Sync.logger.info("Sync waitImplicit Completed successfully");
+		Sync.logger.info("Sync ImplicitWait Completed successfully");
 	}
 
 
@@ -55,7 +55,6 @@ public class Sync extends Common {
 
 	/**
 	 * waitElementinvisible: 
-	 * @param waitSeconds -- provide wait in seconds.
 	 * @param elemfindBy -- provide Element findType with id/name/className/linkText/xpath.
 	 * @param elemfindText -- provide Element findText 
 	 */
@@ -92,8 +91,7 @@ public class Sync extends Common {
 	}
 
 	/**
-	 * waitElementinvisible: 
-	 * @param waitSeconds -- provide wait in seconds.
+	 * waitElementVisible: 
 	 * @param elemfindBy -- provide Element findType with id/name/className/linkText/xpath.
 	 * @param elemfindText -- provide Element findText 
 	 */
@@ -388,22 +386,6 @@ public class Sync extends Common {
 	}
 
 	/**
-	 * it will wait for waitElementPresent
-	 * @param elemfindText send id of the elemnet to be present
-	 * @throws Exception 
-	 */
-	public static void waitElementPresent(String elemfindText) throws Exception{
-
-		WebDriverWait syncWait = new WebDriverWait(dr, waitSeconds);
-
-		syncWait.withTimeout(Long.parseLong(_properties.getProperty(HATF_properties.waitTime)), TimeUnit.SECONDS);
-		syncWait.pollingEvery(300, TimeUnit.MILLISECONDS);
-		syncWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id((elemfindText))));
-		Sync.logger.info("Sync waitElementPresent completed successfully");
-
-	}
-
-	/**
 	 * it will wait for document ready state	
 	 * @throws Exception 
 	 */
@@ -457,7 +439,7 @@ public class Sync extends Common {
 				return (Boolean) js.executeScript("return $.active==0");
 			}
 		});
-		System.out.println("waitForGridloadwaitForGridloadwaitForGridloadwaitForGridloadwaitForGridload");
+		System.out.println("wait For Gridload Completed Succesfully");
 	}
 
 
@@ -474,42 +456,38 @@ public class Sync extends Common {
 		switch(elemfindBY){
 		case "id":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.id(elemfindText)));	
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully for the element: "+elemfindBY +"with text:  "+elemfindText);
 			break;
 
 		case "name":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.name(elemfindText)));
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
+			
 		case "className":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.className(elemfindText)));
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
+			
 		case "linkText":				
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(elemfindText)));	
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
+			
 		case "xpath":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(elemfindText)));
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
+			
 		case "css":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(elemfindText)));
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
+			
 		case "pLinkText":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.partialLinkText(elemfindText)));
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
+			
 		case "tagName":
 			syncWait.until(ExpectedConditions.presenceOfElementLocated(By.tagName(elemfindText)));
-			//			Sync.logger.info("Sync presenceOfElementLocated completed successfully");
 			break;
 		}
-		//		Driver.logger.info("Sync presenceOfElementLocated completed successfullyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
 		logApp.logger.info("Sync presenceOfElementLocated completed successfully for the element: "+elemfindBY +"with text:  "+elemfindText);
 
-		//		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("whatever")));
 	}
 
 	public static void processSync(long time){

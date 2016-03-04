@@ -1,21 +1,23 @@
 package HA.Component;
 
 import java.util.HashMap;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
-import HA.SeleniumLib.*;
-import HA.Utilities.*;
 
-public class Homepage {
-	
+import HA.Utilities.*;
+import HA.SeleniumLib.*;
+
+public class HomePage {
+
 	private WebDriver driver;
-	Common cf=new Common();
 	public static HashMap<String, String> locaterType = new HashMap<String, String>();
 	public static HashMap<String, String> locaterText = new HashMap<String, String>();
 
-	public Homepage(WebDriver driver) {
+	public HomePage(WebDriver driver) {
 		this.driver = driver;
 	}
+	
 	public static void getAllLocaters() throws Exception
 	{
 		System.out.println("sizeeeeee :"+locaterType.size());
@@ -26,22 +28,13 @@ public class Homepage {
 		}
 	}
 
-	public static void appLogin(String datafile, String dataset) throws Exception
+	public LoginPage appLogout() throws Exception
 	{
-		Common.textEnter(locaterType.get("username"), locaterText.get("username"), Util.getXmlData(datafile, dataset,"username"));
-		Common.clickButton(locaterType.get("nextButton"), locaterText.get("nextButton"));
-		Common.textEnter(locaterType.get("password"), locaterText.get("password"), Util.getXmlData(datafile, dataset,"password"));
-		Common.clickButton(locaterType.get("signIn"), locaterText.get("signIn"));
-	}
-
-	public LoginPage loginClick() throws Exception {
-		Common.clickButton(locaterType.get("loginLink"), locaterText.get("loginLink"));
+		Common.clickButton(locaterType.get("logoutLink"), locaterText.get("logoutLink"));
+		Common.clickButton(locaterType.get("logout"), locaterText.get("logout"));
+		Thread.sleep(5000);
 		return PageFactory.initElements(driver, LoginPage.class);
-	}
-	
-	public GmailPage more() throws Exception {
-		Common.clickButton(locaterType.get("more"), locaterText.get("more"));
-		return PageFactory.initElements(driver, GmailPage.class);
+		
 	}
 	
 

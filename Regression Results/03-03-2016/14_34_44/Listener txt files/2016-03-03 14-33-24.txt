@@ -1,0 +1,6 @@
+About to begin executing Suite: SUite
+About to begin executing Test: pom_Sample
+Test Started: f
+Test Failed: f
+About to end executing Test: pom_Sample
+About to end executing Suite: SUite

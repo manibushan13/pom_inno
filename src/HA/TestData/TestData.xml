@@ -1,0 +1,16 @@
+<TestData xmlns="Sample_Test" description="Sample_Test">
+  <DataSet name="InputData">
+    <Add key="username" value="hostautomation@gmail.com" />
+    <Add key="password" value="automation123" />
+    <Add key="LoadType" value="Copy - Paste" />
+    <Add key="LoadItem" value="Data" />
+    <Add key="LoadSubItem" value="GL Data" />
+    <Add key="RowContHeader" value="1" />
+    <Add key="RowstoSkip" value="1" />
+    <Add key="SourceColumns" value="22" />
+    
+  </DataSet>
+  
+
+  
+</TestData>

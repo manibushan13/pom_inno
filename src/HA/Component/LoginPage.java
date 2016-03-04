@@ -12,17 +12,6 @@ public class LoginPage {
 	public static HashMap<String, String> locaterType = new HashMap<String, String>();
 	public static HashMap<String, String> locaterText = new HashMap<String, String>();
 	
-	public LoginPage() {
-		System.out.println("LoginPageeeeeeeeeeeeeeeee");
-		try{
-		locaterType=Util.locaterType("login");
-		locaterText=Util.locaterText("login");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -45,12 +34,10 @@ public class LoginPage {
 		Common.clickButton(locaterType.get("signIn"), locaterText.get("signIn"));
 	}
 	
-	public Homepage inbox() throws Exception
+	public GooglePage inbox() throws Exception
 	{ 
-		Object type="xpath";
-		Object txt="//span[contains(@class,'Ykrj7b')]";
-		Common.clickButton(type, txt);
-		return PageFactory.initElements(driver, Homepage.class);
+		Common.clickButton(locaterType.get("more"), locaterText.get("more"));
+		return PageFactory.initElements(driver, GooglePage.class);
 	}
 
 }

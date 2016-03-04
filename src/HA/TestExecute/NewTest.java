@@ -11,22 +11,21 @@ import HA.SeleniumLib.Login;
 public class NewTest {
 
 	protected LoginPage loginPage;
-	protected GmailPage gmailPage;
-	protected Homepage homepage;
-	String datafile="D:\\poc\\sample\\src\\files\\TestData.xml";
+	protected HomePage homepage;
+	protected GooglePage googlepage;
+	String datafile="TestData";
 	Common cf=new Common();
 
 	@Test
 	public void f() throws Exception {
 
-
-		homepage = PageFactory.initElements(HA.SeleniumLib.Common.dr, Homepage.class);
+		googlepage = PageFactory.initElements(HA.SeleniumLib.Common.dr, GooglePage.class);
 		System.out.println("@Test.......");
-		loginPage=homepage.loginClick();
+		loginPage=googlepage.loginClick();
 		loginPage.appLogin(datafile, "InputData");
-		homepage=loginPage.inbox();
-		gmailPage=homepage.more();
-		gmailPage.appLogout();
+		googlepage=loginPage.inbox();
+		homepage=googlepage.more();
+		homepage.appLogout();
 	}
 	@BeforeTest
 	public void beforeTest() throws Exception {

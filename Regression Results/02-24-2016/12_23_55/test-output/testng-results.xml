@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="SUite" duration-ms="46740" started-at="2016-02-24T06:53:07Z" finished-at="2016-02-24T06:53:54Z">
+    <groups>
+    </groups>
+    <test name="pom_Sample" duration-ms="46740" started-at="2016-02-24T06:53:07Z" finished-at="2016-02-24T06:53:54Z">
+      <class name="HA.TestExecute.NewTest">
+        <test-method status="PASS" signature="beforeTest()[pri:0, instance:HA.TestExecute.NewTest@71daa121]" name="beforeTest" is-config="true" duration-ms="17083" started-at="2016-02-24T12:23:07Z" finished-at="2016-02-24T12:23:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeTest -->
+        <test-method status="PASS" signature="f()[pri:0, instance:HA.TestExecute.NewTest@71daa121]" name="f" duration-ms="29053" started-at="2016-02-24T12:23:24Z" finished-at="2016-02-24T12:23:53Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- f -->
+        <test-method status="PASS" signature="afterTest()[pri:0, instance:HA.TestExecute.NewTest@71daa121]" name="afterTest" is-config="true" duration-ms="411" started-at="2016-02-24T12:23:53Z" finished-at="2016-02-24T12:23:54Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterTest -->
+      </class> <!-- HA.TestExecute.NewTest -->
+    </test> <!-- pom_Sample -->
+  </suite> <!-- SUite -->
+</testng-results>

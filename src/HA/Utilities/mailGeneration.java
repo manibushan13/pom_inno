@@ -1,147 +1,148 @@
 package HA.Utilities;
 
-import java.util.Properties;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.mail.Message;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import org.testng.ITestResult;
 
 import HA.Properties.HATF_properties;
 import HA.Properties.logApp;
 
-public  class mailGeneration {
+public class MailGeneration {
 
 	public static HATF_properties _properties = new HATF_properties();
-	public static String to="",cc="mmulka@innominds.com",subject="",attachmentPath="";
+	public static String mailTemplatePath=System.getProperty("user.dir")+"/MailTemplates/";
+	public static String htmlContent, htmlreportpath;
+	public static String module;
+	public static ITestResult test;
 
-	
-
-	public static void sendMail(String mailType) throws Exception
+	public static String parseHTMLfile(String filePath)
 	{
-		subject="Core Regression Test Suite on "+generateSubject()+" Release";
-		attachmentPath=HTMLPreparation.generateMail(mailType);
-		triggerSendMail();
+		StringBuilder contentBuilder = new StringBuilder();
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(filePath));
+			String str;
+			while ((str = in.readLine()) != null) {
+				contentBuilder.append(str);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		logApp.logger.info("File Parsed");
+		return contentBuilder.toString();
 	}
 
-	private static String generateSubject() {
+	public static String prepmail(String fileName) throws Exception{
 
-		String buildVersion="Sample_Build";
-		String release = null;
+		FileWriter fWriter = null;
+		BufferedWriter writer = null;
+		String strDate = timedate.GetDateTimeforHTML();
+		String sFilename = fileName+ strDate+ ".html";
+		String htmlreportpath =System.getProperty("user.dir") + "/test-output/" + File.separator + sFilename;
+		try {
 
-		release=buildVersion;
-		return release;
+			fWriter = new FileWriter(htmlreportpath);
+			writer = new BufferedWriter(fWriter);
+			writer.write(htmlContent);;
+			writer.close();
+			System.out.println("MAil Body prepared");
+			logApp.logger.info("MAil Body prepared");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logApp.logger.error(e);
+		}
+		return htmlreportpath;
 	}
 
-	public static void triggerSendMail()
+
+	public static String generateMail(String mailType) throws Exception {
+
+		String filePath;
+		switch(mailType)
+		{
+		case "Start" :
+		{
+			filePath=mailTemplatePath+"ExecutionStartMail.html";
+			MailTrigger.to= _properties.getProperty("Exestartmail");
+			htmlContent= parseHTMLfile(filePath).replace("#Browser#", _properties.getProperty("BROWSER") );
+
+			fillCommonDetails();
+			MailBody.generateStartHTML();
+			return prepmail("Execution_StartMail");
+		}
+		case "ExecutionReport":
+		{
+			filePath=mailTemplatePath+"ExecutionMail.html";
+			MailTrigger.to= _properties.getProperty("Exemail");
+			htmlContent= parseHTMLfile(filePath).replace("#Browser#", _properties.getProperty("BROWSER") );
+			fillCommonDetails();
+			//			System.out.println("Module Name:"+HTMLPreparation.module);
+			String module=GenerateHTML.getTCdetails(0).get(4).split("HA.TestExecute.")[0]+" "+ _properties.getProperty("BROWSER");
+			//           String ModuleName=generateHTMLReport.getTCdetails(0).get(4).split("HA.TestExecute.")[1].split("\\.")[0];
+
+			htmlContent=htmlContent.replace( "#HorizonStatus#","");
+			MailTrigger.subject+=": "+module+" Module Results"+MailBody.generateExecutionHTML();;
+			htmlreportpath=prepmail("Execution_report");
+			return htmlreportpath;
+		}
+		case "failure":
+		{
+			filePath=mailTemplatePath+"ExecutionFail.html";
+			MailTrigger.subject="Test case Failed";
+			MailTrigger.to= _properties.getProperty("FailureMail");
+			htmlContent= parseHTMLfile(filePath);
+			fillCommonDetails();
+			String testDetails = test.getTestClass().toString();
+			String testName=testDetails.split("HA.TestExecute.")[1];
+			String Module= testName.split("\\.")[0];
+			String testScriptName =(testName.split("\\.")[1]).split("]")[0];
+			String testDuration = MilliSecondsToMinutes(test.getStartMillis()-test.getEndMillis());
+			String Remarks=test.getThrowable().toString();
+			Remarks=Remarks.split("\\:")[0];
+			htmlContent=htmlContent.replace("#Module#",Module).replace("#Test Script Name#",testScriptName).replace("#Test Duration#",testDuration).replace("#Remarks#",GenerateHTML.exception(Remarks));
+			return prepmail("TC_Failed");
+		}
+		}
+		return null;
+	}
+
+
+
+	public static void fillCommonDetails() throws UnknownHostException
 	{
-		final String userName="QAautomationrun@hostanalytics.com";
-		final String passWord= "automation@123";
-		String host="smtp.gmail.com";
-		String port="465";
-		String starttls="true";
-		String auth="true";
-		boolean debug=true;
-		String socketFactoryClass="javax.net.ssl.SSLSocketFactory";
-		String fallback="false";
-		
+		htmlContent=htmlContent.replace("#URL#",_properties.getProperty("BASEURL")).replace("#OS#",System.getProperty("os.name")).replace("#ExecutionMachine#",InetAddress.getLocalHost().getHostName()).replace("#BuildVersion#","Sample_Build");
+	}
 
-		//Object Instantiation of a properties file.
-		Properties props = new Properties();
-		props.put("mail.smtp.user", userName);
-		props.put("mail.smtp.host", host);
-		
-		
-		if(!"".equals(port)){
-			props.put("mail.smtp.port", port);
-		}
 
-		if(!"".equals(starttls)){
-			props.put("mail.smtp.starttls.enable",starttls);
-			props.put("mail.smtp.auth", auth);
-		}
 
-		if(debug){
-			props.put("mail.smtp.debug", "true");
+
+	public static void setFailedTestcaseDetails(ITestResult testCase) {
+
+		test=testCase;
+
+	}
+
+
+	public static String MilliSecondsToMinutes(long testexetime)
+	{
+		String time;
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(testexetime);
+		if(minutes<1){
+			minutes = TimeUnit.MILLISECONDS.toSeconds(testexetime);
+			time="1 Mins";
+			logApp.logger.info("Test Script Exetime in Secs: "+minutes);
 		}
 		else{
-			props.put("mail.smtp.debug", "false");
+			time=String.valueOf(minutes)+" Mins";
 		}
-
-		if(!"".equals(port)){
-			props.put("mail.smtp.socketFactory.port", port);
-		}
-
-		if(!"".equals(socketFactoryClass)){
-			props.put("mail.smtp.socketFactory.class",socketFactoryClass);
-		}
-
-		if(!"".equals(fallback)){
-			props.put("mail.smtp.socketFactory.fallback", fallback);
-		}
-
-		try{
-			
-			// Get the Session object.
-//		      Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-//		         protected PasswordAuthentication getPasswordAuthentication() {
-//		            return new PasswordAuthentication(userName, passWord);
-//		         }
-//		      });
-		      
-
-			Session session = Session.getDefaultInstance(props, null);
-			MimeMessage msg = new MimeMessage(session);
-			msg.setSubject(subject);
-
-			Multipart multipart = new MimeMultipart();
-			MimeBodyPart messageBodyPart = new MimeBodyPart();
-			DataSource source = new FileDataSource(attachmentPath);
-			messageBodyPart.setDataHandler(new DataHandler(source));
-			multipart.addBodyPart(messageBodyPart);
-
-			msg.setContent(multipart);
-			msg.setFrom(new InternetAddress(userName));
-
-			msg.addRecipients(Message.RecipientType.TO, to);
-			msg.addRecipients(Message.RecipientType.CC, cc);
-			msg.saveChanges();
-
-			Transport transport = session.getTransport("smtp");
-			transport.connect(host, userName, passWord);
-			
-			System.out.println("connected mail ");
-			
-			transport.sendMessage(msg, msg.getAllRecipients());
-			
-			transport.close();
-			logApp.logger.info("Mail Sent");
-			System.out.println("Mail Sent");
-		} 
-
-		catch (Exception e){
-			e.printStackTrace();
-			logApp.logger.error(e);				
-		}
+		return time;
 	}
-
-	public static void setReceivers(String mailType)
-	{
-		
-	}
-
-	public static void setSubject(String mailType)
-	{
-
-	}
-
-
 }

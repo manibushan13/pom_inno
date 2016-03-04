@@ -1,0 +1,6 @@
+About to begin executing Suite: SUite
+About to begin executing Test: NewTest
+Test Started: f
+Test Failed: f
+About to end executing Test: NewTest
+About to end executing Suite: SUite

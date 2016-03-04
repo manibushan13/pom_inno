@@ -10,13 +10,13 @@ public class logApp {
 
 	public static void main(String[] args) throws Exception {
 		DOMConfigurator.configure(System.getProperty("user.dir")+"/src/log4j.xml");
-		System.out.println("log4j Intialised Successfully.");
-		logger.info("log4j Intialised Successfully.");
-
+		logger.info("log4j Intialised11 Successfully.");
 	}
+	
+	
 	public static void logIntilize() throws Exception {
 		DOMConfigurator.configure(System.getProperty("user.dir")+"/src/log4j.xml");
-		System.out.println("log4j Intialised Successfully.");
+		logger.info("log4j Intialised22 Successfully.");
 
 	}
 

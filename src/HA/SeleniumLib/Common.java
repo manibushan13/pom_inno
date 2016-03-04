@@ -55,8 +55,16 @@ public class Common {
 	public static String parenWindow;
 	public static String os;
 	
-	public Common(){
+	@SuppressWarnings("unused")
+	public Common() {
+		try{
+		logApp.logIntilize();
 		Fetch_PageLocaters fp=new Fetch_PageLocaters();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	public static String browserName(){
@@ -68,12 +76,11 @@ public class Common {
 	 * @param browser -- pass bowser name as 	 	
 	 ** "IE" for Internet Explorer.
 	 ** "GC" for Google Chrome.
-	 ** 	by default it will take FireFox
+	 ** by default it will take FireFox
 	 * @param url
 	 */	
 
 	public static void driver(String browser,String url) throws Exception{		
-
 
 		browservar=browser;
 		switch (browser){	
@@ -95,13 +102,10 @@ public class Common {
 
 			//Get Chrome Driver
 			if(os.contains("mac"))
-			{
 				System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") +"/Lib/chromedriver");
-			}
 			else
-			{	
 				System.setProperty("webdriver.chrome.driver",System.getProperty("user.dir") +"/Lib/chromedriver.exe");
-			}
+			
 			String downloadFilepath = System.getProperty("user.dir")+"/src/HA/TestData/Reporting/Downloads";
 
 			//Save Chrome Preferences in Hash Map
@@ -265,7 +269,7 @@ public class Common {
 
 	public static String Getxml(String datafile, String dataset, String key) throws Exception{
 		String values = null;		
-		values = HA.Utilities.ReadXML.dataset(datafile,dataset,key);
+		values = HA.Utilities.Util.getXmlData(datafile,dataset,key);
 		System.out.println(key+" valuesssssssssssss "+values);
 		return values;
 	}
@@ -786,146 +790,6 @@ public class Common {
 		return s;
 	}
 
-
-	/**
-	 * owcVerify: will verify owcSheetName
-	 * @param spreadsheet
-	 * @param controltype
-	 */
-	public static void owcVerify(String spreadsheet, int controltype, String expecteddata)throws Exception{		
-		String script = null;
-		if(browservar.equals("IE")){
-			script = "var spreadsheetname =\'"+spreadsheet+"\';var controltype =\'"+controltype+"\';var tmpxmlsheet;"
-					+ "if(controltype == 0){"
-					+ "var manksheet = eval('document.'+spreadsheetname);"
-					+ "return ExportToExcel(document.CommonDialog1, manksheet, false, false);"
-					+ "} else if (controltype == 1){"
-					+ "var spread; "
-					+ "tmpxmlsheet = CreateSpreadsheet();"
-					+ "spread = eval('document.all.'+spreadsheetname);"
-					+ "tmpxmlsheet.xmldata = spread.xmldata;"
-					+ "return tmpxmlsheet.xmldata"
-					+ "}"	
-					+ " else if (controltype == 2){"
-					+ "var spread; "
-					+ "tmpxmlsheet = CreateSpreadsheet();"
-					+ "spread = eval('document.'+spreadsheetname);"
-					+ "tmpxmlsheet.xmldata = spread.XMLData;"
-					+ "return tmpxmlsheet.xmldata"
-					+ "}"		
-					+ "function ExportToExcel(exporter, spreadsheet, appendDate, applyFormat, clearRange, columnsToHide, rowsToHide){ "
-					+ "var tmpSpreadsheet; "
-					+ "try{ "
-					+ "tmpSpreadsheet = CreateSpreadsheet(); "
-					+ "tmpSpreadsheet.xmldata = spreadsheet.xmldata; "
-					+ "for (var iCnt = 1; iCnt <= tmpSpreadsheet.worksheets.count; iCnt++){ "
-					+ "tmpSpreadsheet.Sheets(iCnt).Protection.Enabled = false; "
-					+ "tmpSpreadsheet.Sheets(iCnt).UsedRange.Hyperlink.Delete(); "
-					+ "if(applyFormat && iCnt == 1) "
-					+ "{ "
-					+ "FormatExportData(tmpSpreadsheet.Sheets(iCnt), clearRange, columnsToHide, rowsToHide); "
-					+ "} "
-					+ "tmpSpreadsheet.Sheets(iCnt).Protection.AllowFormattingColumns = true; "
-					+ "tmpSpreadsheet.Sheets(iCnt).Protection.Enabled = true; "
-					+ "} "
-					+ "} "				
-					+ "catch( e ) "
-					+ "{ "
-					+ "} "
-					+"return tmpSpreadsheet.xmldata"
-					+"}";
-		}else{
-			script = "return getXMLForAutomationHelp();";
-		}
-		String xmldata = (String) ((JavascriptExecutor) dr).executeScript(script);
-
-		if(Common.browserName().equalsIgnoreCase("GC"))
-		{
-			if(HA.Utilities.Xmlcomparison.compareResult(xmldata, expecteddata))
-			{
-				logApp.logger.info("true");
-			}
-			else
-			{
-				logApp.logger.info("false");
-				Assert.fail();
-			}
-		}
-		else
-			HA.Utilities.File.fcompare(xmldata,expecteddata);
-
-		logApp.logger.info("owcVerification done successfully");		
-
-	}
-	
-	public static void owcVerifyRange(String spreadsheet, int controltype, String expecteddata,int row,int column)throws Exception{		
-		String script = null;
-		if(browservar.equals("IE")){
-			script = "var spreadsheetname =\'"+spreadsheet+"\';var controltype =\'"+controltype+"\';var tmpxmlsheet;"
-					+ "if(controltype == 0){"
-					+ "var manksheet = eval('document.'+spreadsheetname);"
-					+ "return ExportToExcel(document.CommonDialog1, manksheet, false, false);"
-					+ "} else if (controltype == 1){"
-					+ "var spread; "
-					+ "tmpxmlsheet = CreateSpreadsheet();"
-					+ "spread = eval('document.all.'+spreadsheetname);"
-					+ "tmpxmlsheet.xmldata = spread.xmldata;"
-					+ "return tmpxmlsheet.xmldata"
-					+ "}"	
-					+ " else if (controltype == 2){"
-					+ "var spread; "
-					+ "tmpxmlsheet = CreateSpreadsheet();"
-					+ "spread = eval('document.'+spreadsheetname);"
-					+ "tmpxmlsheet.xmldata = spread.XMLData;"
-					+ "return tmpxmlsheet.xmldata"
-					+ "}"		
-					+ "function ExportToExcel(exporter, spreadsheet, appendDate, applyFormat, clearRange, columnsToHide, rowsToHide){ "
-					+ "var tmpSpreadsheet; "
-					+ "try{ "
-					+ "tmpSpreadsheet = CreateSpreadsheet(); "
-					+ "tmpSpreadsheet.xmldata = spreadsheet.xmldata; "
-					+ "for (var iCnt = 1; iCnt <= tmpSpreadsheet.worksheets.count; iCnt++){ "
-					+ "tmpSpreadsheet.Sheets(iCnt).Protection.Enabled = false; "
-					+ "tmpSpreadsheet.Sheets(iCnt).UsedRange.Hyperlink.Delete(); "
-					+ "if(applyFormat && iCnt == 1) "
-					+ "{ "
-					+ "FormatExportData(tmpSpreadsheet.Sheets(iCnt), clearRange, columnsToHide, rowsToHide); "
-					+ "} "
-					+ "tmpSpreadsheet.Sheets(iCnt).Protection.AllowFormattingColumns = true; "
-					+ "tmpSpreadsheet.Sheets(iCnt).Protection.Enabled = true; "
-					+ "} "
-					+ "} "				
-					+ "catch( e ) "
-					+ "{ "
-					+ "} "
-					+"return tmpSpreadsheet.xmldata"
-					+"}";
-		}else{
-			script = "return getXMLForAutomationHelp();";
-		}
-		String xmldata = (String) ((JavascriptExecutor) dr).executeScript(script);
-
-//		HA.Utilities.File.fcompare(xmldata,expecteddata);		
-//		if(HA.Utilities.Xmlcomparison.compareResult(xmldata, expecteddata,3,16380))
-		if(HA.Utilities.Xmlcomparison.compareResult(xmldata, expecteddata,row,column))
-		{
-			logApp.logger.info("true");
-		}
-		else
-		{
-			logApp.logger.info("false");
-			Assert.fail();
-		}
-
-		logApp.logger.info("owcVerification done successfully");		
-
-	}
-
-	public static void htmlVerify(String htmlData, String expecteddata)throws Exception{			
-		HA.Utilities.File.htmlFileCompare(htmlData,expecteddata);
-		logApp.logger.info("HTML verification done successfully");
-	}
-
 	/**
 	 * wexInput: will input on wex
 	 */
@@ -986,8 +850,6 @@ public class Common {
 		
 		logApp.logger.info("alerts completed successfully");
 	}
-
-
 
 	//**Calendar*/
 	/**WIP*/
@@ -1063,10 +925,9 @@ public class Common {
 
 	public static void screenShot(String saveAs)throws Exception{
 		File scrFile = ((TakesScreenshot)dr).getScreenshotAs(OutputType.FILE);			
-		System.out.println("Sy6"+System.getProperty("user.dir")+"/TestLogs/screenShots/"+(saveAs+HA.Utilities.File.GetDateTime())+".jpg");
-		FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir")+"/TestLogs/screenShots/"+(saveAs+HA.Utilities.File.GetDateTime
-				())+".jpg"));
-		logApp.logger.info("screenshot saved successfully");		
+		System.out.println(System.getProperty("user.dir")+"/TestLogs/screenShots/"+saveAs+".jpg");
+		FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir")+"/TestLogs/screenShots/"+saveAs+".jpg"));
+		logApp.logger.info("Screenshot Saved Successfully");		
 	}	
 
 
@@ -1518,7 +1379,7 @@ public class Common {
 
 	public static void writeFile(String source){	
 		try{				
-			String fileName = "C:\\hataf\\source\\TestLogs\\runningStatus\\"+((HA.Utilities.File.GetDateTime()).split("\\_"))[0]+".txt";
+			String fileName = "C:\\hataf\\source\\TestLogs\\runningStatus\\"+((HA.Utilities.timedate.getCurrentTimeStamp()).split("\\_"))[0]+".txt";
 			PrintWriter writeData = new PrintWriter(new BufferedWriter(new FileWriter(fileName, true)));
 			writeData.println(source);
 			writeData.close();
@@ -1908,7 +1769,7 @@ public class Common {
 	}
 
 	public static String getFlag(){
-		System.out.println("TimeStamp:"+HA.Utilities.HTML.GetDateTime());
+		System.out.println("TimeStamp:"+HA.Utilities.timedate.GetDateTimeforHTML());
 		String s ="999";
 		Boolean ss=false;
 		int i=0;
@@ -1929,7 +1790,7 @@ public class Common {
 				System.out.println("iiiiiiii: "+(i++));
 				i=i+1;
 			}else if(i==500){
-				System.out.println(HA.Utilities.HTML.GetDateTime());
+				System.out.println(HA.Utilities.timedate.GetDateTimeforHTML());
 				break;
 			}
 		}

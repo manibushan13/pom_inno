@@ -11,21 +11,23 @@ import HA.Properties.logApp;
 
 public class timedate {
 
+	public static String sDateTime;
+	
 	public static String getlocaltime(String time) throws Exception{
-		
+
 		DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-	    utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	    DateFormat indianFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
-	    indianFormat.setTimeZone(TimeZone.getTimeZone("IST"));
-	    Date timestamp = utcFormat.parse(time);
-	    String output = indianFormat.format(timestamp);
+		utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		DateFormat indianFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+		indianFormat.setTimeZone(TimeZone.getTimeZone("IST"));
+		Date timestamp = utcFormat.parse(time);
+		String output = indianFormat.format(timestamp);
 		System.out.println(output);
 		return output;
-		
+
 	}
-	
+
 	public static String getminsectime(String time) throws Exception{
-		
+
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(time).longValue());
 		if(minutes<1){
 			minutes = TimeUnit.MILLISECONDS.toSeconds(Long.valueOf(time).longValue());
@@ -37,36 +39,47 @@ public class timedate {
 			logApp.logger.info("Test Script Exetime in Mins: "+minutes);
 		}
 		return time;
-		
+
 	}
-	
-	public static String getlocaltimeformat(String time) throws Exception{
-		
-		DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");	    
-	    DateFormat indianFormat = new SimpleDateFormat("yyyy-MM-dd KK:mm:ss a");	    
-	    Date timestamp = utcFormat.parse(time);
-	    String output = indianFormat.format(timestamp);
-		System.out.println(output);
-		return output;
-		
+
+	public static String getCurrentTimeStamp() throws Exception, SQLException{
+
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a");
+		String currentTime = sdf.format(date);
+		System.out.println(currentTime); 
+
+		return currentTime;
 	}
-	
+
 	public static String getbuildtime() throws Exception, SQLException{
-		
-		String buildname = DB.getDBdata("SELECT TOP 1 NAME FROM S_APP_VERSION ORDER BY IDX DESC");
-		String deploytime = DB.getDBdata("SELECT TOP 1 CREATED_DATE FROM S_APP_VERSION ORDER BY IDX DESC");
 
-		deploytime = getlocaltimeformat(deploytime);
-		
-		String HACPMVerison = buildname+" deployed on "+deploytime;
-		System.out.println(HACPMVerison);
-		
-		return HACPMVerison;
-		
+		String buildname = "Sample Build";
+		String deploytime = getCurrentTimeStamp();
+		String Verison = buildname+" deployed on "+deploytime;
+		System.out.println(Verison);
+
+		return Verison;
 	}
 	
-	
+	public static String GetDateTimeforHTML()
+	{
+		String strDate = null;
+		SimpleDateFormat sdfDate = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
 
-	
-	
+		Date now = new Date();
+		strDate = sdfDate.format(now);
+		String strTime = sdfTime.format(now);
+
+		strTime = strTime.replace(":", "-");
+		sDateTime = strDate + "_" + strTime;
+		
+		return sDateTime;
+	}
+
+
+
+
+
 }

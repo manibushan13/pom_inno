@@ -5,7 +5,7 @@
 	</listeners>
 
 
-	<test description="Sample Test" name="pom_Sample" priority="P1" testid="23784">
+	<test description="Sample Test" name="NewTest" priority="P1" testid="23784">
 		<classes>
 			<class name="HA.TestExecute.NewTest" />
 		</classes>

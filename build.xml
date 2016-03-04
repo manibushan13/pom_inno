@@ -4,17 +4,10 @@
     <property name="src.dir" value="${basedir}/src"/>
     <property name="bin.dir" value="${basedir}/bin" />  
 	<property name="report.dir" value="${basedir}/test-output" />
- 	<property name="xxx" value="ccccccccccc"/>
+ 	<property name="xxx" value="Sampleeeeee"/>
 	<echo message="${xxx}"/>
-<!-- 	<replaceregexp file="${basedir}/Config/hataf.properties"
-               match="https://qa.haicpm.com/"
-               replace="https://qasandbox.haicpm.com/"
-               byline="true"
-/> -->
-	<!-- <echo message="${BASEURL}"/> -->
+
 	<target name="antlogs">
-	<!--  <property file="${basedir}/Config/hataf.properties"/>
-		<replace file="${basedir}/Config/hataf.properties" token="${BASEURL}" value="https://qasandbox.haicpm.com/"/>  -->
 	  <tstamp>
 	    <format property="timestamp" pattern="yyyy-MM-dd_HH-mm-ss"/>
 	  </tstamp>
@@ -33,7 +26,8 @@
             <fileset dir="${jars.dir}" includes="**/*.jar" />
         </path>
         <pathconvert pathsep=":" property="test.classpath" refid="classpath_jars" />
-    </target>		
+    </target>	
+	
     <target name="clean" depends="setClassPath">
         <echo message="deleting existing build directory"/>
         <delete dir="${build.dir}"/>
@@ -43,17 +37,20 @@
     <target name="compile" depends="clean">
         <echo message="compiling.........."/>
         <javac destdir="${build.dir}" srcdir="${src.dir}" classpath="${test.classpath}" encoding="iso-8859-1"/>
-    </target>	
+    </target>
+	
 	<target name="runTests" depends="compile">
     	<echo message="Running.........."/>
         <taskdef resource="testngtasks" classpath="${test.classpath}"/>        
         <testng classpath="${test.classpath}:${build.dir}">
             <xmlfileset dir="${basedir}" includes="TestNG.xml"/>
         </testng>
-    </target>	
+    </target>
+	
 	<target name="sendreport" depends="runTests">
 		<echo message="Preparing.........."/>
 		<java classname= "HA.Utilities.MailNG"  fork="true" classpath="${test.classpath}:${build.dir}">
 		</java>
     </target>
+	
 </project>

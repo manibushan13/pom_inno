@@ -15,7 +15,7 @@ public class Login {
 		logApp.logger.info("Browser :"+browser);
 		logApp.logger.info("uname : "+ _properties.getProperty(HATF_properties.UNAME));
 		if(browser!=""){
-			logApp.logger.info("if statmenttttttt");
+			logApp.logger.info("if statementtttttt");
 			logApp.logger.info("URL :"+_properties.getProperty(HATF_properties.BASEURL));
 			Common.driver(browser,_properties.getProperty(HATF_properties.BASEURL));
 		}
@@ -23,7 +23,6 @@ public class Login {
 			logApp.logger.info("else statementttttt");
 			Common.driver(_properties.getProperty(HATF_properties.BROWSER),_properties.getProperty(HATF_properties.BASEURL));
 		}
-		logApp.logger.info("signIn success");
 	}
 
 	public static void selectModule(String datafile,String dataset) throws Exception
@@ -47,12 +46,6 @@ public class Login {
 			Common.callSubModule(submodule);
 			logApp.logger.info(submodule+" module in "+module+" selected successfully");
 		}
-	}
-
-	public static void selectsubModule(String datafile,String dataset) throws Exception{ //** selecting submodules in Consolidation Module.*/
-
-		Sync.waitElementPresent(20,"id",Common.Getxml(datafile,dataset,"selectsubModule"));
-		Common.clickElement("id",Common.Getxml(datafile,dataset,"selectsubModule"));
 	}
 
 
